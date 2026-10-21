@@ -68,27 +68,34 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
 
   return (
     <>
-      <div className="bg-white rounded-[28px] p-4 sm:p-5 border border-[#FFD9E2]/70 shadow-xs hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+      <div className="bg-white rounded-2xl sm:rounded-[28px] p-2 sm:p-5 border border-[#FFD9E2]/70 shadow-xs hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group relative">
+        {/* Mobile floating in-cart count badge */}
+        {inCartCount > 0 && (
+          <div className="sm:hidden absolute -top-1.5 -right-1.5 z-20 bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] text-white text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-md border-2 border-white">
+            {inCartCount}
+          </div>
+        )}
+
         <div>
           {/* Glass Presentation Stage with Ambient Shadow & Stamp Badge */}
           <div
             onClick={() => setModalOpen(true)}
-            className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[#FFF9EE]/60 to-[#FCECEF]/30 p-2 sm:p-3 border border-[#FFD9E2]/40 group-hover:border-[#FF5C8D]/40 transition-colors flex items-center justify-center cursor-pointer"
+            className="relative aspect-square sm:aspect-[4/3] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[#FFF9EE]/60 to-[#FCECEF]/30 p-1 sm:p-3 border border-[#FFD9E2]/40 group-hover:border-[#FF5C8D]/40 transition-colors flex items-center justify-center cursor-pointer"
           >
             <div className="relative w-full h-full flex items-center justify-center">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-full object-cover sm:object-contain rounded-xl transition-transform duration-300 group-hover:scale-105 filter drop-shadow-sm"
+                className="w-full h-full object-cover sm:object-contain rounded-lg sm:rounded-xl transition-transform duration-300 group-hover:scale-105 filter drop-shadow-sm"
               />
               {/* Soft subtle bottom glass shadow to anchor it to the card */}
-              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3/4 h-2.5 bg-[#2E1A12]/10 blur-sm rounded-full pointer-events-none" />
+              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3/4 h-2 bg-[#2E1A12]/10 blur-xs rounded-full pointer-events-none" />
             </div>
 
             {/* Vintage Stamp Badge (Must try / Best seller) */}
             {badgeText && (
-              <div className={`absolute top-2.5 ${badgeText === 'Best seller' ? 'left-2.5 -rotate-6' : 'right-2.5 rotate-6'} z-10 transition-transform group-hover:rotate-0 pointer-events-none`}>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full border border-[#FF5C8D] bg-white/95 text-[#FF5C8D] font-extrabold text-[11px] tracking-wide shadow-2xs">
+              <div className={`absolute top-1 sm:top-2.5 ${badgeText === 'Best seller' ? 'left-1 sm:left-2.5 -rotate-6' : 'right-1 sm:right-2.5 rotate-6'} z-10 transition-transform group-hover:rotate-0 pointer-events-none`}>
+                <span className="inline-flex items-center px-1.5 sm:px-2.5 py-0.2 sm:py-0.5 rounded-full border border-[#FF5C8D] bg-white/95 text-[#FF5C8D] font-extrabold text-[8px] sm:text-[11px] tracking-wide shadow-2xs whitespace-nowrap">
                   {badgeText}
                 </span>
               </div>
@@ -96,13 +103,13 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
           </div>
 
           {/* Item Info: Price -> Name -> Ingredients */}
-          <div className="mt-3.5">
+          <div className="mt-1.5 sm:mt-3.5">
             {/* Price: Big bold number with k */}
             <div className="flex items-baseline">
-              <span className="font-black text-2xl sm:text-3xl text-[#2E1A12] tracking-tight leading-none">
+              <span className="font-black text-sm sm:text-3xl text-[#2E1A12] tracking-tight leading-none">
                 {priceNumber}
               </span>
-              <span className="font-black text-base sm:text-lg text-[#2E1A12] ml-0.5">
+              <span className="font-black text-[10px] sm:text-lg text-[#2E1A12] ml-0.5">
                 k
               </span>
             </div>
@@ -110,37 +117,41 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
             {/* Name: Original font */}
             <h4
               onClick={() => setModalOpen(true)}
-              className="font-extrabold text-base sm:text-lg text-[#2E1A12] leading-snug group-hover:text-[#FF5C8D] transition-colors mt-1 cursor-pointer line-clamp-1"
+              className="font-extrabold text-[11px] sm:text-lg text-[#2E1A12] leading-tight sm:leading-snug group-hover:text-[#FF5C8D] transition-colors mt-0.5 sm:mt-1 cursor-pointer line-clamp-2"
+              title={item.name}
             >
               {item.name}
             </h4>
 
-            {/* Ingredients / Description subtext */}
-            <p className="text-xs text-stone-500 font-sans mt-1 line-clamp-2 leading-relaxed">
+            {/* Ingredients / Description subtext - Hidden on mobile 3-col grid, shown on tablet & desktop */}
+            <p className="hidden sm:block text-xs text-stone-500 font-sans mt-1 line-clamp-2 leading-relaxed">
               {item.description}
             </p>
           </div>
         </div>
 
         {/* Ordering Action Footer */}
-        <div className="mt-4 pt-3 border-t border-[#FFD9E2]/50 flex items-center justify-between gap-2">
-          {inCartCount > 0 ? (
-            <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF5C8D] bg-[#FCECEF] px-2.5 py-1 rounded-full border border-[#FFD9E2]">
-              <span>Đã chọn:</span>
-              <span className="bg-[#FF5C8D] text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-black">
-                {inCartCount}
+        <div className="mt-2 sm:mt-4 pt-1.5 sm:pt-3 border-t border-[#FFD9E2]/50 flex items-center justify-between gap-1 sm:gap-2">
+          {/* Desktop in-cart counter */}
+          <div className="hidden sm:block">
+            {inCartCount > 0 ? (
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF5C8D] bg-[#FCECEF] px-2.5 py-1 rounded-full border border-[#FFD9E2]">
+                <span>Đã chọn:</span>
+                <span className="bg-[#FF5C8D] text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-black">
+                  {inCartCount}
+                </span>
+              </div>
+            ) : (
+              <span className="text-[11px] text-stone-400 font-medium">
+                {item.sizes && item.sizes.length > 0 ? 'Có chọn size' : 'Tiêu chuẩn'}
               </span>
-            </div>
-          ) : (
-            <span className="text-[11px] text-stone-400 font-medium">
-              {item.sizes && item.sizes.length > 0 ? 'Có chọn size' : 'Tiêu chuẩn'}
-            </span>
-          )}
+            )}
+          </div>
 
           <button
             type="button"
             onClick={handleQuickAdd}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-bold text-xs transition-all duration-200 cursor-pointer ${
+            className={`w-full sm:w-auto justify-center inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl sm:rounded-full font-bold text-[10px] sm:text-xs transition-all duration-200 cursor-pointer active:scale-95 ${
               addedFeedback
                 ? 'bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] text-white shadow-xs'
                 : 'bg-[#FFF9EE] text-[#2E1A12] border border-[#FFD9E2] hover:bg-gradient-to-r hover:from-[#FF5C8D] hover:to-[#E83D70] hover:text-white hover:border-transparent shadow-2xs'
@@ -148,13 +159,15 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
           >
             {addedFeedback ? (
               <>
-                <Check className="w-3.5 h-3.5" />
-                <span>Đã thêm</span>
+                <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                <span className="hidden sm:inline">Đã thêm</span>
+                <span className="sm:hidden">Xong</span>
               </>
             ) : (
               <>
-                <Plus className="w-3.5 h-3.5 text-[#FF5C8D] group-hover:text-white transition-colors" />
-                <span>Chọn món</span>
+                <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#FF5C8D] group-hover:text-white transition-colors" />
+                <span className="hidden sm:inline">Chọn món</span>
+                <span className="sm:hidden">Thêm</span>
               </>
             )}
           </button>

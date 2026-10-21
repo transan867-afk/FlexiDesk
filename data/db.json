@@ -790,7 +790,7 @@
       "id": "cafe-4",
       "name": "Skyline Terrace – Rooftop Work & Meet",
       "slug": "skyline-terrace",
-      "tagline": "Không gian làm việc & gặp gỡ đ�����i tác trên tầng cao sang trọng",
+      "tagline": "Không gian làm việc & gặp gỡ đ�������i tác trên tầng cao sang trọng",
       "description": "Tọa lạc trên tầng 14 tòa nhà thương mại tại Quận 7, Skyline Terrace sở hữu tầm nhìn 360 độ ngắm trọn toàn cảnh khu đô thị Phú Mỹ Hưng và hồ Bán Nguyệt. Nơi hoàn hảo cho các buổi brainstorm, phỏng vấn tuyển dụng, tiếp khách ngoại giao hoặc đổi gió làm việc cao cấp.",
       "address": "105 Tôn Dật Tiên, Phường Tân Phú",
       "ward": "Tân Phú",
@@ -1351,6 +1351,112 @@
     ]
   },
   "bookings": [
+    {
+      "cafeId": "cafe-2",
+      "cafeName": "Botanica – Cafe & Garden Desk",
+      "cafeAddress": "18 Tú Xương, Phường Võ Thị Sáu",
+      "cafeHeroImage": "/cafes/white-glass-garden.png",
+      "tableId": "cafe-2-t09",
+      "tableName": "Bàn Đôi Trung Tâm #09",
+      "tableType": "double",
+      "tableZone": "Dãy Bàn Đôi Giữa Phòng",
+      "floor": 1,
+      "date": "2026-10-21",
+      "startTime": "18:50",
+      "customerInfo": {
+        "name": "Hà Mỹ Tiên",
+        "phone": "0222222222",
+        "email": "",
+        "notes": ""
+      },
+      "cartItems": [
+        {
+          "id": "m-1792360766302---",
+          "menuItem": {
+            "name": "Chanh Dây Bạc Hà Cold Brew",
+            "category": "signature",
+            "categoryName": "Sparkling",
+            "price": 59000,
+            "image": "/menu/m-1792360766302.png",
+            "description": "Chanh Dây  và tinh dâu bạc hà Cold Brew",
+            "isAvailable": true,
+            "id": "m-1792360766302",
+            "cafeId": "cafe-2"
+          },
+          "quantity": 1,
+          "extraPrice": 0,
+          "totalPrice": 59000
+        }
+      ],
+      "drinkTotal": 59000,
+      "seatFee": 0,
+      "discountCode": "",
+      "discountAmount": 0,
+      "totalAmount": 59000,
+      "depositAmount": 6000,
+      "remainingAtCafe": 53000,
+      "paymentMethod": "deposit_10_percent",
+      "paymentGateway": "momo",
+      "bookingStatus": "confirmed",
+      "paymentStatus": "paid",
+      "id": "FD-661440",
+      "qrCodeData": "{\"bookingId\":\"FD-661440\",\"cafe\":\"Botanica – Cafe & Garden Desk\",\"table\":\"Bàn Đôi Trung Tâm #09\",\"date\":\"2026-10-21\",\"time\":\"18:50\",\"guest\":\"Hà Mỹ Tiên\",\"phone\":\"0222222222\",\"platform\":\"FlexiDesk_MVP_Platform\"}",
+      "createdAt": "2026-10-21T11:50:57.797Z",
+      "updatedAt": "2026-10-21T11:50:57.797Z"
+    },
+    {
+      "cafeId": "cafe-4",
+      "cafeName": "Skyline Terrace – Rooftop Work & Meet",
+      "cafeAddress": "105 Tôn Dật Tiên, Phường Tân Phú",
+      "cafeHeroImage": "/cafes/sunlit-glasshouse.png",
+      "tableId": "cafe-4-t09",
+      "tableName": "Bàn Đôi Trung Tâm #09",
+      "tableType": "double",
+      "tableZone": "Dãy Bàn Đôi Giữa Phòng",
+      "floor": 1,
+      "date": "2026-10-18",
+      "startTime": "01:16",
+      "customerInfo": {
+        "name": "Hà Mỹ Tiên",
+        "phone": "0566782432",
+        "email": "",
+        "notes": "Hệ thống tự động giải phóng bàn do quá 15 phút chưa check-in"
+      },
+      "cartItems": [
+        {
+          "id": "m-402---",
+          "menuItem": {
+            "id": "m-402",
+            "cafeId": "cafe-4",
+            "name": "Cold Brew Đào Cam Sả Thảo Mộc",
+            "category": "signature",
+            "categoryName": "Sparkling",
+            "description": "Hương vị trái cây nhiệt đới ngọt mát, giúp tỉnh táo tối đa khi làm việc cả ngày dài.",
+            "price": 65000,
+            "image": "/menu/m-402.png",
+            "isAvailable": true
+          },
+          "quantity": 1,
+          "extraPrice": 0,
+          "totalPrice": 65000
+        }
+      ],
+      "drinkTotal": 65000,
+      "seatFee": 0,
+      "discountCode": "",
+      "discountAmount": 0,
+      "totalAmount": 65000,
+      "depositAmount": 7000,
+      "remainingAtCafe": 58000,
+      "paymentMethod": "deposit_10_percent",
+      "paymentGateway": "momo",
+      "bookingStatus": "expired",
+      "paymentStatus": "paid",
+      "id": "FD-611326",
+      "qrCodeData": "{\"bookingId\":\"FD-611326\",\"cafe\":\"Skyline Terrace – Rooftop Work & Meet\",\"table\":\"Bàn Đôi Trung Tâm #09\",\"date\":\"2026-10-18\",\"time\":\"01:16\",\"guest\":\"Hà Mỹ Tiên\",\"phone\":\"0566782432\",\"platform\":\"FlexiDesk_MVP_Platform\"}",
+      "createdAt": "2026-10-21T11:49:57.584Z",
+      "updatedAt": "2026-10-21T11:49:57.588Z"
+    },
     {
       "cafeId": "cafe-1",
       "cafeName": "Nâu Coffee – Coffee & Workspace",
@@ -2002,7 +2108,7 @@
   ],
   "systemStats": {
     "version": "1.0.0",
-    "lastSaved": "2026-10-21T11:21:02.063Z"
+    "lastSaved": "2026-10-21T11:50:57.799Z"
   },
   "menuCategories": {
     "cafe-1": [

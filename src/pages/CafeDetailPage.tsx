@@ -362,10 +362,10 @@ export const CafeDetailPage: React.FC = () => {
           </div>
 
           {/* Step 3: Cafe Drinks Menu (Redesigned Editorial Carte Layout) */}
-          <div ref={menuSectionRef} className="bg-white rounded-[36px] p-6 sm:p-10 border border-[#FFD9E2] shadow-card relative">
+          <div ref={menuSectionRef} className="bg-white rounded-3xl sm:rounded-[36px] p-3 sm:p-10 border border-[#FFD9E2] shadow-card relative">
             
             {/* Step 3 Status Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-8 p-4 rounded-2xl bg-[#FFF9EE]/70 border border-[#FFD9E2]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 sm:mb-8 p-3 sm:p-4 rounded-2xl bg-[#FFF9EE]/70 border border-[#FFD9E2]">
               <div className="flex items-center gap-2">
                 <span className={`text-xs font-bold px-3 py-1 rounded-full ${
                   cartItems.length > 0
@@ -390,33 +390,33 @@ export const CafeDetailPage: React.FC = () => {
             </div>
 
             {/* Editorial Masthead / Header Emblem (Matching reference top emblem) */}
-            <div className="text-center max-w-md mx-auto pt-2 pb-8 mb-8 border-b border-[#2E1A12]/10">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#FFF9EE] border border-[#FFD9E2] text-[#FF5C8D] mb-3 shadow-2xs">
-                <Coffee className="w-5 h-5 text-[#FF5C8D]" />
+            <div className="text-center max-w-md mx-auto pt-2 pb-5 sm:pb-8 mb-6 sm:mb-8 border-b border-[#2E1A12]/10">
+              <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF9EE] border border-[#FFD9E2] text-[#FF5C8D] mb-2 sm:mb-3 shadow-2xs">
+                <Coffee className="w-4 h-4 sm:w-5 sm:h-5 text-[#FF5C8D]" />
               </div>
               
-              <h2 className="font-black text-2xl sm:text-3xl text-[#2E1A12] tracking-widest uppercase">
+              <h2 className="font-black text-xl sm:text-3xl text-[#2E1A12] tracking-widest uppercase">
                 / {cafe.name.split('–')[0].split('-')[0].trim()} /
               </h2>
               
-              <p className="text-xs text-stone-500 mt-1 font-semibold tracking-wide">
+              <p className="text-[11px] sm:text-xs text-stone-500 mt-1 font-semibold tracking-wide">
                 café & workspace • curated signature menu
               </p>
 
-              <div className="mt-3 inline-flex items-center gap-2 px-3.5 py-1 bg-[#FFF9EE] border border-[#FFD9E2] rounded-full text-[11px] font-bold text-stone-600">
+              <div className="mt-2.5 sm:mt-3 inline-flex items-center gap-1.5 sm:gap-2 px-3 py-0.5 sm:py-1 bg-[#FFF9EE] border border-[#FFD9E2] rounded-full text-[10px] sm:text-[11px] font-bold text-stone-600">
                 <span>Đơn vị tính: k (x1.000đ)</span>
                 <span>•</span>
-                <span>Nhấp vào món để tùy chỉnh size, đường, đá</span>
+                <span>Chạm món để tùy chỉnh size, đá</span>
               </div>
             </div>
 
             {/* Menu Category Pills */}
-            <div className="flex items-center justify-center gap-2 overflow-x-auto pb-3 mb-10 scrollbar-none">
+            <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-3 mb-6 sm:mb-10 scrollbar-none">
               {menuCategories.map(cat => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveMenuCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                  className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                     activeMenuCategory === cat.id
                       ? 'bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] text-white shadow-pink-200 shadow-md'
                       : 'bg-[#FFF9EE] text-[#2E1A12] border border-[#FFD9E2]/70 hover:bg-[#FCECEF]'
@@ -428,26 +428,26 @@ export const CafeDetailPage: React.FC = () => {
             </div>
 
             {/* Menu Editorial Sections */}
-            <div className="space-y-12">
+            <div className="space-y-8 sm:space-y-12">
               {displaySections.map((section, sIdx) => (
-                <div key={section.id} className={sIdx > 0 ? "pt-4" : ""}>
+                <div key={section.id} className={sIdx > 0 ? "pt-2 sm:pt-4" : ""}>
                   {/* Section Title with horizontal divider rule matching reference */}
-                  <div className="flex items-end justify-between pb-3 border-b border-[#2E1A12]/15 mb-8">
+                  <div className="flex items-end justify-between pb-2 sm:pb-3 border-b border-[#2E1A12]/15 mb-4 sm:mb-8">
                     <div>
-                      <h3 className="font-black text-2xl sm:text-3xl text-[#2E1A12] tracking-tight">
+                      <h3 className="font-black text-lg sm:text-3xl text-[#2E1A12] tracking-tight">
                         {section.meta.enTitle}
                       </h3>
-                      <p className="text-xs text-stone-500 font-sans mt-0.5">
+                      <p className="text-[11px] sm:text-xs text-stone-500 font-sans mt-0.5">
                         {section.meta.viTitle}
                       </p>
                     </div>
-                    <span className="text-xs font-bold text-stone-400 pb-1">
+                    <span className="text-[11px] sm:text-xs font-bold text-stone-400 pb-0.5 sm:pb-1">
                       {section.items.length} món
                     </span>
                   </div>
 
-                  {/* 3 Columns Item Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                  {/* 3 Columns Item Grid (3 items/row on mobile) */}
+                  <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 lg:gap-8">
                     {section.items.map(item => (
                       <MenuItemCard key={item.id} item={item} />
                     ))}
