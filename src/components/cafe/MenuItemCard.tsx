@@ -80,16 +80,16 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
           {/* Glass Presentation Stage with Ambient Shadow & Stamp Badge */}
           <div
             onClick={() => setModalOpen(true)}
-            className="relative aspect-square sm:aspect-[4/3] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[#FFF9EE]/60 to-[#FCECEF]/30 p-1 sm:p-3 border border-[#FFD9E2]/40 group-hover:border-[#FF5C8D]/40 transition-colors flex items-center justify-center cursor-pointer"
+            className="relative aspect-square sm:aspect-[4/3] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[#FFF9EE]/60 to-[#FCECEF]/30 p-1.5 sm:p-3 border border-[#FFD9E2]/40 group-hover:border-[#FF5C8D]/40 transition-colors flex items-center justify-center cursor-pointer"
           >
-            <div className="relative w-full h-full flex items-center justify-center">
+            <div className="relative w-full h-full flex items-center justify-center p-0.5 sm:p-1">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-full object-cover sm:object-contain rounded-lg sm:rounded-xl transition-transform duration-300 group-hover:scale-105 filter drop-shadow-sm"
+                className="w-full h-full max-h-[88%] max-w-[88%] object-contain rounded-md sm:rounded-lg transition-transform duration-300 group-hover:scale-105 filter drop-shadow-sm"
               />
               {/* Soft subtle bottom glass shadow to anchor it to the card */}
-              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3/4 h-2 bg-[#2E1A12]/10 blur-xs rounded-full pointer-events-none" />
+              <div className="absolute -bottom-0.5 sm:-bottom-1 left-1/2 -translate-x-1/2 w-3/4 h-1.5 sm:h-2 bg-[#2E1A12]/10 blur-xs rounded-full pointer-events-none" />
             </div>
 
             {/* Vintage Stamp Badge (Must try / Best seller) */}
@@ -188,11 +188,13 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
 
             {/* Header */}
             <div className="flex gap-4 items-center pb-4 border-b border-[#FFD9E2]/60">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-16 h-16 rounded-2xl object-cover border border-[#FFD9E2]"
-              />
+              <div className="w-16 h-16 rounded-2xl bg-[#FFF9EE] border border-[#FFD9E2] p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-contain"
+                />
+              </div>
               <div>
                 <h3 className="font-extrabold text-lg text-[#2E1A12]">{item.name}</h3>
                 <p className="text-xs text-stone-500 line-clamp-1">{item.description}</p>

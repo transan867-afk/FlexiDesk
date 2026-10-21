@@ -1389,11 +1389,11 @@ export const PartnerDashboardPage: React.FC = () => {
                           onClick={() => addToPosCart(item)}
                           className="bg-white hover:bg-[#FFF9EE] rounded-2xl p-3 border border-[#FFD9E2]/80 hover:border-[#FF5C8D]/50 cursor-pointer transition-all hover:shadow-xs flex flex-col justify-between group shadow-2xs"
                         >
-                          <div className="aspect-square rounded-xl overflow-hidden mb-2 bg-[#FAF7F2]">
+                          <div className="aspect-square rounded-xl overflow-hidden mb-2 bg-[#FAF7F2] p-1 flex items-center justify-center">
                             <img
                               src={item.image}
                               alt={item.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
                             />
                           </div>
                           <div>

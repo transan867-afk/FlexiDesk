@@ -790,7 +790,7 @@
       "id": "cafe-4",
       "name": "Skyline Terrace – Rooftop Work & Meet",
       "slug": "skyline-terrace",
-      "tagline": "Không gian làm việc & gặp gỡ đ�������i tác trên tầng cao sang trọng",
+      "tagline": "Không gian làm việc & gặp gỡ đ���������i tác trên tầng cao sang trọng",
       "description": "Tọa lạc trên tầng 14 tòa nhà thương mại tại Quận 7, Skyline Terrace sở hữu tầm nhìn 360 độ ngắm trọn toàn cảnh khu đô thị Phú Mỹ Hưng và hồ Bán Nguyệt. Nơi hoàn hảo cho các buổi brainstorm, phỏng vấn tuyển dụng, tiếp khách ngoại giao hoặc đổi gió làm việc cao cấp.",
       "address": "105 Tôn Dật Tiên, Phường Tân Phú",
       "ward": "Tân Phú",
@@ -2108,7 +2108,7 @@
   ],
   "systemStats": {
     "version": "1.0.0",
-    "lastSaved": "2026-10-21T11:50:57.799Z"
+    "lastSaved": "2026-10-21T11:55:33.024Z"
   },
   "menuCategories": {
     "cafe-1": [
