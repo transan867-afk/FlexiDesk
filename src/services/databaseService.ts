@@ -23,7 +23,7 @@ export interface DatabaseSchema {
   };
 }
 
-const STORAGE_KEY = 'flexidesk_full_database_v6';
+const STORAGE_KEY = 'flexidesk_full_database_v7';
 
 const DEFAULT_USERS: User[] = [
   {
@@ -173,6 +173,24 @@ class DatabaseManager {
     });
   }
 
+  private sanitizeMenuItems(menus: Record<string, MenuItem[]>): Record<string, MenuItem[]> {
+    if (!menus) return MOCK_MENU_ITEMS;
+    const result: Record<string, MenuItem[]> = {};
+    for (const [cafeId, items] of Object.entries(menus)) {
+      result[cafeId] = (items || []).map(item => {
+        // If image is an unsplash link or empty, map to updated local /menu/... asset
+        if (!item.image || item.image.includes('unsplash.com')) {
+          const fallback = MOCK_MENU_ITEMS[cafeId]?.find(m => m.id === item.id);
+          if (fallback && fallback.image) {
+            return { ...item, image: fallback.image };
+          }
+        }
+        return item;
+      });
+    }
+    return result;
+  }
+
   private loadInitial(): DatabaseSchema {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -181,6 +199,9 @@ class DatabaseManager {
         if (parsed && parsed.cafes) {
           parsed.cafes = this.sanitizeCafeImages(parsed.cafes);
           parsed.cafes = this.sanitizeTables(parsed.cafes, parsed.bookings || []);
+        }
+        if (parsed && parsed.menus) {
+          parsed.menus = this.sanitizeMenuItems(parsed.menus);
         }
         if (parsed && parsed.bookings) {
           parsed.bookings = this.sanitizeBookings(parsed.bookings, parsed.cafes || []);
@@ -209,16 +230,23 @@ class DatabaseManager {
   }
 
   /**
-   * Fetch latest database from server (data/db.json)
+   * Fetch latest database from server (data/db.json or static public/db.json)
    */
   public async fetchFromServer(): Promise<void> {
     try {
-      const res = await fetch('/api/db');
+      let res = await fetch('/api/db');
+      if (!res.ok) {
+        // Fallback to static db.json on Vercel deployment
+        res = await fetch('/db.json');
+      }
       if (res.ok) {
         const serverData = await res.json();
         if (serverData && serverData.users && serverData.cafes) {
           serverData.cafes = this.sanitizeCafeImages(serverData.cafes);
           serverData.cafes = this.sanitizeTables(serverData.cafes, serverData.bookings || []);
+          if (serverData.menus) {
+            serverData.menus = this.sanitizeMenuItems(serverData.menus);
+          }
           if (serverData.bookings) {
             serverData.bookings = this.sanitizeBookings(serverData.bookings, serverData.cafes);
           }

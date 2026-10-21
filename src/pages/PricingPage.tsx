@@ -35,9 +35,9 @@ export const PricingPage: React.FC = () => {
 
   // Pricing values
   const proMonthly = 79000;
-  const proYearly = Math.round(79000 * 12 * 0.8); // 20% off
+  const proYearly = 759000; // 759.000 VND / năm
   const teamMonthly = 329000;
-  const teamYearly = Math.round(329000 * 12 * 0.8); // 20% off
+  const teamYearly = 3159000; // 3.159.000 VND / năm
 
   const handleOpenSubscribe = (plan: 'pro' | 'team') => {
     if (!currentUser) {
@@ -359,7 +359,9 @@ export const PricingPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-extrabold text-lg text-[#2E1A12]">
-                  Xác Nhận Đăng Ký {selectedPlanModal === 'pro' ? 'Gói PRO (79.000đ)' : 'Gói TEAM (329.000đ)'}
+                  Xác Nhận Đăng Ký {selectedPlanModal === 'pro' 
+                    ? (billingCycle === 'yearly' ? 'Gói PRO (759.000đ/năm)' : 'Gói PRO (79.000đ/tháng)') 
+                    : (billingCycle === 'yearly' ? 'Gói TEAM (3.159.000đ/năm)' : 'Gói TEAM (329.000đ/tháng)')}
                 </h3>
                 <p className="text-xs text-stone-500">
                   {billingCycle === 'monthly' ? 'Chu kỳ thanh toán: Hàng tháng' : 'Chu kỳ thanh toán: Hàng năm (-20%)'}

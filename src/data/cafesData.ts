@@ -1,327 +1,448 @@
 import { Cafe, MenuItem } from '../types';
 
 export const MOCK_MENU_ITEMS: Record<string, MenuItem[]> = {
-  'cafe-1': [
+  "cafe-1": [
     {
-      id: 'm-101',
-      cafeId: 'cafe-1',
-      name: 'Cold Brew Mơ Rừng & Cam Vàng',
-      category: 'signature',
-      categoryName: 'Món Đặc Trưng',
-      description: 'Cà phê ủ lạnh 18 giờ, syrup mơ rừng Tây Bắc, cam vàng tươi mát.',
-      price: 65000,
-      image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
-      badge: 'Must try',
-      sizes: [
-        { name: 'Size Tiêu chuẩn (M)', extraPrice: 0 },
-        { name: 'Size Lớn (L)', extraPrice: 10000 },
+      "id": "m-101",
+      "cafeId": "cafe-1",
+      "name": "Cold Brew Mơ Rừng & Cam Vàng",
+      "category": "signature",
+      "categoryName": "Sparkling",
+      "description": "Cà phê ủ lạnh 18 giờ, syrup mơ rừng Tây Bắc, cam vàng tươi mát.",
+      "price": 65000,
+      "image": "/menu/m-101.png",
+      "isAvailable": true,
+      "isPopular": true,
+      "badge": "Must try",
+      "sizes": [
+        {
+          "name": "Size Tiêu chuẩn (M)",
+          "extraPrice": 0
+        },
+        {
+          "name": "Size Lớn (L)",
+          "extraPrice": 10000
+        }
       ],
-      sugarLevels: ['Ngọt chuẩn 100%', 'Ít ngọt 50%', 'Không đường 0%'],
-      iceLevels: ['Đá bình thường', 'Ít đá', 'Không đá'],
-    },
-    {
-      id: 'm-107',
-      cafeId: 'cafe-1',
-      name: 'Osmanthus Passion Lemon Soda',
-      category: 'signature',
-      categoryName: 'Món Đặc Trưng',
-      description: 'Chanh vàng, chanh dây nhiệt đới, hoa mộc thơm dịu, soda sủi tăm.',
-      price: 45000,
-      image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: false,
-      sizes: [
-        { name: 'Ly Tiêu chuẩn', extraPrice: 0 },
+      "sugarLevels": [
+        "Ngọt chuẩn 100%",
+        "Ít ngọt 50%",
+        "Không đường 0%"
       ],
-      sugarLevels: ['Ngọt chuẩn', 'Ít ngọt (50%)'],
-      iceLevels: ['Đá bình thường', 'Ít đá'],
+      "iceLevels": [
+        "Đá bình thường",
+        "Ít đá",
+        "Không đá"
+      ]
     },
     {
-      id: 'm-108',
-      cafeId: 'cafe-1',
-      name: 'Pink Grapefruit Yakult Soda',
-      category: 'signature',
-      categoryName: 'Món Đặc Trưng',
-      description: 'Bưởi hồng tươi mọng nước, soda mát lạnh, sữa chua Yakult lên men.',
-      price: 45000,
-      image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
-      badge: 'Must try',
-      sizes: [
-        { name: 'Ly Tiêu chuẩn', extraPrice: 0 },
+      "id": "m-107",
+      "cafeId": "cafe-1",
+      "name": "Osmanthus Passion Lemon Soda",
+      "category": "signature",
+      "categoryName": "Sparkling",
+      "description": "Chanh vàng, chanh dây nhiệt đới, hoa mộc thơm dịu, soda sủi tăm.",
+      "price": 45000,
+      "image": "/menu/m-107.png",
+      "isAvailable": true,
+      "isPopular": false,
+      "sizes": [
+        {
+          "name": "Ly Tiêu chuẩn",
+          "extraPrice": 0
+        }
       ],
-      sugarLevels: ['Ngọt thanh chuẩn vị', 'Ít ngọt'],
-      iceLevels: ['Đá mát lạnh', 'Ít đá'],
-    },
-    {
-      id: 'm-109',
-      cafeId: 'cafe-1',
-      name: 'Banana Choco Oreo Frappe',
-      category: 'tea',
-      categoryName: 'Trà Trái Cây & Sinh Tố',
-      description: 'Sinh tố chuối chín tự nhiên, sốt choco đậm đặc, vụn bánh oreo giòn.',
-      price: 52000,
-      image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: false,
-      sugarLevels: ['Ngọt chuẩn', 'Ít ngọt'],
-    },
-    {
-      id: 'm-110',
-      cafeId: 'cafe-1',
-      name: 'Tropical Mango Passion Freeze',
-      category: 'tea',
-      categoryName: 'Trà Trái Cây & Sinh Tố',
-      description: 'Xoài cát chín mọng, chanh dây thanh mát, thơm mật ong, dừa tươi đá xay.',
-      price: 49000,
-      image: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
-      badge: 'Must try',
-      sizes: [
-        { name: 'Size M', extraPrice: 0 },
-        { name: 'Size L', extraPrice: 10000 },
+      "sugarLevels": [
+        "Ngọt chuẩn",
+        "Ít ngọt (50%)"
       ],
-      sugarLevels: ['Ngọt trái cây tự nhiên', 'Không thêm đường'],
+      "iceLevels": [
+        "Đá bình thường",
+        "Ít đá"
+      ]
     },
     {
-      id: 'm-111',
-      cafeId: 'cafe-1',
-      name: 'Strawberry Mango Greek Yogurt',
-      category: 'tea',
-      categoryName: 'Trà Trái Cây & Sinh Tố',
-      description: 'Dâu tây Đà Lạt, xoài tươi xắt hạt lựu, sữa chua Hy Lạp sánh mịn giàu probiotic.',
-      price: 52000,
-      image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
-      badge: 'Best seller',
-      sugarLevels: ['Ngọt vừa', 'Không đường'],
-    },
-    {
-      id: 'm-102',
-      cafeId: 'cafe-1',
-      name: 'Latte Hạnh Nhân Muối Biển',
-      category: 'coffee',
-      categoryName: 'Cà Phê Ý',
-      description: 'Espresso Arabica Cầu Đất, sữa hạt hạnh nhân đánh mịn, bọt muối hồng.',
-      price: 58000,
-      image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
-      badge: 'Best seller',
-      sizes: [
-        { name: 'Nóng (Hot)', extraPrice: 0 },
-        { name: 'Đá (Iced)', extraPrice: 5000 },
+      "id": "m-108",
+      "cafeId": "cafe-1",
+      "name": "Lime Yakult Soda",
+      "category": "signature",
+      "categoryName": "Sparkling",
+      "description": "Bưởi hồng tươi mọng nước, soda mát lạnh, sữa chua Yakult lên men.",
+      "price": 45000,
+      "image": "/menu/m-108.png",
+      "isAvailable": true,
+      "isPopular": true,
+      "badge": "Must try",
+      "sizes": [
+        {
+          "name": "Ly Tiêu chuẩn",
+          "extraPrice": 0
+        }
       ],
-      sugarLevels: ['Ngọt chuẩn', 'Ít ngọt (50%)', 'Không đường'],
-    },
-    {
-      id: 'm-105',
-      cafeId: 'cafe-1',
-      name: 'Americano Đá Arabica Special',
-      category: 'coffee',
-      categoryName: 'Cà Phê Ý',
-      description: 'Ghi chú hương hoa cam, quả mọng dại và hậu vị caramel êm dịu, không gắt.',
-      price: 45000,
-      image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: false,
-      sizes: [
-        { name: 'Size M', extraPrice: 0 },
-        { name: 'Size L', extraPrice: 8000 },
+      "sugarLevels": [
+        "Ngọt thanh chuẩn vị",
+        "Ít ngọt"
       ],
-      sugarLevels: ['Không đường', 'Ít đường'],
+      "iceLevels": [
+        "Đá mát lạnh",
+        "Ít đá"
+      ]
     },
     {
-      id: 'm-103',
-      cafeId: 'cafe-1',
-      name: 'Trà Oolong Sữa Nướng Trân Châu',
-      category: 'coffee',
-      categoryName: 'Trà & Cà Phê',
-      description: 'Trà Oolong thượng hạng sao đậm đà, sữa tươi thanh trùng, trân châu hoàng kim giòn dai.',
-      price: 52000,
-      image: 'https://images.unsplash.com/photo-1558857563-b37cb3335520?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      sizes: [
-        { name: 'Vừa (M)', extraPrice: 0 },
-        { name: 'Lớn (L)', extraPrice: 8000 },
+      "id": "m-109",
+      "cafeId": "cafe-1",
+      "name": "Lục trà cherry",
+      "category": "tea",
+      "categoryName": "Fresh Fruit",
+      "description": "Trà cherry tươi mát, giải nhiệt, cherry tươi mọng",
+      "price": 52000,
+      "image": "/menu/m-109.png",
+      "isAvailable": true,
+      "isPopular": false,
+      "sugarLevels": [
+        "Ngọt chuẩn",
+        "Ít ngọt"
+      ]
+    },
+    {
+      "id": "m-110",
+      "cafeId": "cafe-1",
+      "name": "Tropical Mango Passion Freeze",
+      "category": "tea",
+      "categoryName": "Fresh Fruit",
+      "description": "Xoài cát chín mọng, chanh dây thanh mát, thơm mật ong, dừa tươi đá xay.",
+      "price": 49000,
+      "image": "/menu/m-110.png",
+      "isAvailable": true,
+      "isPopular": true,
+      "badge": "Must try",
+      "sizes": [
+        {
+          "name": "Size M",
+          "extraPrice": 0
+        },
+        {
+          "name": "Size L",
+          "extraPrice": 10000
+        }
       ],
-      sugarLevels: ['70% Đường', '50% Đường', '30% Đường'],
-      iceLevels: ['Đá 100%', 'Đá 50%', 'Đá 30%'],
+      "sugarLevels": [
+        "Ngọt trái cây tự nhiên",
+        "Không thêm đường"
+      ]
     },
     {
-      id: 'm-104',
-      cafeId: 'cafe-1',
-      name: 'Croissant Bơ Pháp Hạnh Nhân Nướng',
-      category: 'pastry',
-      categoryName: 'Bánh Nướng & Tráng Miệng',
-      description: 'Bánh sừng bò ngàn lớp bơ Pháp cao cấp, kem frangipane hạnh nhân nướng giòn rụm.',
-      price: 48000,
-      image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
-      badge: 'Best seller',
+      "id": "m-111",
+      "cafeId": "cafe-1",
+      "name": "Strawberry  Greek Yogurt",
+      "category": "tea",
+      "categoryName": "Fresh Fruit",
+      "description": "Dâu tây Đà Lạt, sữa chua Hy Lạp sánh mịn giàu probiotic.",
+      "price": 52000,
+      "image": "/menu/m-111.png",
+      "isAvailable": true,
+      "isPopular": true,
+      "badge": "Best seller",
+      "sugarLevels": [
+        "Ngọt vừa",
+        "Không đường"
+      ]
     },
     {
-      id: 'm-106',
-      cafeId: 'cafe-1',
-      name: 'Bánh Phô Mai Cháy Basque Cheesecake',
-      category: 'pastry',
-      categoryName: 'Bánh Nướng & Tráng Miệng',
-      description: 'Bánh phô mai nướng vàng caramen, kem béo ngậy tan chảy mềm mượt bên trong.',
-      price: 55000,
-      image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: false,
+      "id": "m-102",
+      "cafeId": "cafe-1",
+      "name": "Latte Hạnh Nhân Muối Biển",
+      "category": "coffee",
+      "categoryName": "Specialty Coffee",
+      "description": "Espresso Arabica Cầu Đất, sữa hạt hạnh nhân đánh mịn, bọt muối hồng.",
+      "price": 58000,
+      "image": "/menu/m-102.png",
+      "isAvailable": true,
+      "isPopular": true,
+      "badge": "Best seller",
+      "sizes": [
+        {
+          "name": "Nóng (Hot)",
+          "extraPrice": 0
+        },
+        {
+          "name": "Đá (Iced)",
+          "extraPrice": 5000
+        }
+      ],
+      "sugarLevels": [
+        "Ngọt chuẩn",
+        "Ít ngọt (50%)",
+        "Không đường"
+      ]
     },
     {
-      id: 'm-112',
-      cafeId: 'cafe-1',
-      name: 'Tiramisu Cổ Điển Rượu Kahlua',
-      category: 'pastry',
-      categoryName: 'Bánh Nướng & Tráng Miệng',
-      description: 'Bánh ladyfinger đẫm espresso hảo hạng, kem mascarpone béo mịn và bột cacao nguyên chất.',
-      price: 58000,
-      image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
-      badge: 'Best seller',
+      "id": "m-105",
+      "cafeId": "cafe-1",
+      "name": "Americano Đá Arabica Special",
+      "category": "coffee",
+      "categoryName": "Specialty Coffee",
+      "description": "Ghi chú hương hoa cam, quả mọng dại và hậu vị caramel êm dịu, không gắt.",
+      "price": 45000,
+      "image": "/menu/m-105.png",
+      "isAvailable": true,
+      "isPopular": false,
+      "sizes": [
+        {
+          "name": "Size M",
+          "extraPrice": 0
+        },
+        {
+          "name": "Size L",
+          "extraPrice": 8000
+        }
+      ],
+      "sugarLevels": [
+        "Không đường",
+        "Ít đường"
+      ]
+    },
+    {
+      "id": "m-103",
+      "cafeId": "cafe-1",
+      "name": "Trà Oolong Sữa Nướng Trân Châu",
+      "category": "coffee",
+      "categoryName": "Specialty Coffee",
+      "description": "Trà Oolong thượng hạng sao đậm đà, sữa tươi thanh trùng, trân châu hoàng kim giòn dai.",
+      "price": 52000,
+      "image": "/menu/m-103.png",
+      "isAvailable": true,
+      "sizes": [
+        {
+          "name": "Vừa (M)",
+          "extraPrice": 0
+        },
+        {
+          "name": "Lớn (L)",
+          "extraPrice": 8000
+        }
+      ],
+      "sugarLevels": [
+        "70% Đường",
+        "50% Đường",
+        "30% Đường"
+      ],
+      "iceLevels": [
+        "Đá 100%",
+        "Đá 50%",
+        "Đá 30%"
+      ]
+    },
+    {
+      "id": "m-104",
+      "cafeId": "cafe-1",
+      "name": "Croissant Bơ Pháp Hạnh Nhân Nướng",
+      "category": "pastry",
+      "categoryName": "Bakery & Pastry",
+      "description": "Bánh sừng bò ngàn lớp bơ Pháp cao cấp, kem frangipane hạnh nhân nướng giòn rụm.",
+      "price": 48000,
+      "image": "/menu/m-104.png",
+      "isAvailable": true,
+      "isPopular": true,
+      "badge": "Best seller"
+    },
+    {
+      "id": "m-106",
+      "cafeId": "cafe-1",
+      "name": "Bánh Phô Mai Cháy Basque Cheesecake",
+      "category": "pastry",
+      "categoryName": "Bakery & Pastry",
+      "description": "Bánh phô mai nướng vàng caramen, kem béo ngậy tan chảy mềm mượt bên trong.",
+      "price": 55000,
+      "image": "/menu/m-106.png",
+      "isAvailable": true,
+      "isPopular": false
+    },
+    {
+      "id": "m-112",
+      "cafeId": "cafe-1",
+      "name": "Tiramisu Cổ Điển Rượu Kahlua",
+      "category": "pastry",
+      "categoryName": "Bakery & Pastry",
+      "description": "Bánh ladyfinger đẫm espresso hảo hạng, kem mascarpone béo mịn và bột cacao nguyên chất.",
+      "price": 58000,
+      "image": "/menu/m-112.png",
+      "isAvailable": true,
+      "isPopular": true,
+      "badge": "Best seller"
     }
   ],
-  'cafe-2': [
+  "cafe-2": [
     {
-      id: 'm-201',
-      cafeId: 'cafe-2',
-      name: 'Matcha Latte Shizuoka Cao Cấp',
-      category: 'signature',
-      categoryName: 'Món Đặc Trưng',
-      description: 'Bột matcha thượng hạng nhập khẩu Shizuoka Nhật Bản đánh chasen thủ công, ngậy thơm vị umami mượt mà.',
-      price: 68000,
-      image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
-      sizes: [
-        { name: 'Size M', extraPrice: 0 },
-        { name: 'Size L', extraPrice: 12000 },
+      "id": "m-201",
+      "cafeId": "cafe-2",
+      "name": "Matcha Latte Shizuoka Cao Cấp",
+      "category": "signature",
+      "categoryName": "Sparkling",
+      "description": "Bột matcha thượng hạng nhập khẩu Shizuoka Nhật Bản đánh chasen thủ công, ngậy thơm vị umami mượt mà.",
+      "price": 68000,
+      "image": "/menu/m-201.png",
+      "isAvailable": true,
+      "isPopular": true,
+      "sizes": [
+        {
+          "name": "Size M",
+          "extraPrice": 0
+        },
+        {
+          "name": "Size L",
+          "extraPrice": 12000
+        }
       ],
-      sugarLevels: ['50% Ngọt vừa', 'Không đường', '100% Ngọt chuẩn'],
+      "sugarLevels": [
+        "50% Ngọt vừa",
+        "Không đường",
+        "100% Ngọt chuẩn"
+      ]
     },
     {
-      id: 'm-202',
-      cafeId: 'cafe-2',
-      name: 'Cà Phê Muối Xứ Huế',
-      category: 'coffee',
-      categoryName: 'Cà Phê Việt',
-      description: 'Phin truyền thống đậm vị kèm lớp kem muối bồng bềnh béo thơm đặc sản.',
-      price: 45000,
-      image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
-      sugarLevels: ['Ngọt chuẩn', 'Ít ngọt'],
+      "id": "m-202",
+      "cafeId": "cafe-2",
+      "name": "Cà Phê Muối Xứ Huế",
+      "category": "coffee",
+      "categoryName": "Specialty Coffee",
+      "description": "Phin truyền thống đậm vị kèm lớp kem muối bồng bềnh béo thơm đặc sản.",
+      "price": 45000,
+      "image": "/menu/m-202.png",
+      "isAvailable": true,
+      "isPopular": true,
+      "sugarLevels": [
+        "Ngọt chuẩn",
+        "Ít ngọt"
+      ]
     },
     {
-      id: 'm-203',
-      cafeId: 'cafe-2',
-      name: 'Trà Lựu Đỏ Hạt Chia Tươi Mát',
-      category: 'tea',
-      categoryName: 'Trà Trái Cây',
-      description: 'Nước cốt lựu đỏ tươi giàu chất chống oxy hóa hòa quyện trà lài thơm nức và hạt chia organic.',
-      price: 55000,
-      image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      sizes: [
-        { name: 'Size L', extraPrice: 0 },
+      "id": "m-203",
+      "cafeId": "cafe-2",
+      "name": "Trà Lựu Đỏ Hạt Chia Tươi Mát",
+      "category": "tea",
+      "categoryName": "Fresh Fruit",
+      "description": "Nước cốt lựu đỏ tươi giàu chất chống oxy hóa hòa quyện trà lài thơm nức và hạt chia organic.",
+      "price": 55000,
+      "image": "/menu/m-203.png",
+      "isAvailable": true,
+      "sizes": [
+        {
+          "name": "Size L",
+          "extraPrice": 0
+        }
       ],
-      iceLevels: ['Đá thường', 'Ít đá'],
+      "iceLevels": [
+        "Đá thường",
+        "Ít đá"
+      ]
     },
     {
-      id: 'm-204',
-      cafeId: 'cafe-2',
-      name: 'Sandwich Gà Nướng Sốt Pesto',
-      category: 'snack',
-      categoryName: 'Đồ Ăn Nhẹ',
-      description: 'Bánh mì ngũ cốc nướng giòn kèm ức gà tẩm thảo mộc, sốt lá húng tây pesto và phô mai parmesan.',
-      price: 62000,
-      image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
+      "id": "m-204",
+      "cafeId": "cafe-2",
+      "name": "Sandwich Gà Nướng Sốt Pesto",
+      "category": "snack",
+      "categoryName": "Light Bites",
+      "description": "Bánh mì ngũ cốc nướng giòn kèm ức gà tẩm thảo mộc, sốt lá húng tây pesto và phô mai parmesan.",
+      "price": 62000,
+      "image": "/menu/m-204.png",
+      "isAvailable": true
+    },
+    {
+      "name": "Hồng Trà Đào Cam",
+      "category": "tea",
+      "categoryName": "Fresh Fruit",
+      "price": 50000,
+      "image": "/menu/m-1792360638121.png",
+      "description": "Trà thanh mát, đào giòn ngâm ngọt vừa phải",
+      "isAvailable": true,
+      "id": "m-1792360638121",
+      "cafeId": "cafe-2"
+    },
+    {
+      "name": "Chanh Dây Bạc Hà Cold Brew",
+      "category": "signature",
+      "categoryName": "Sparkling",
+      "price": 59000,
+      "image": "/menu/m-1792360766302.png",
+      "description": "Chanh Dây  và tinh dâu bạc hà Cold Brew",
+      "isAvailable": true,
+      "id": "m-1792360766302",
+      "cafeId": "cafe-2"
     }
   ],
-  'cafe-3': [
+  "cafe-3": [
     {
-      id: 'm-301',
-      cafeId: 'cafe-3',
-      name: 'Espresso Tonic Chanh Vàng Vani',
-      category: 'signature',
-      categoryName: 'Món Đặc Trưng',
-      description: 'Sự bùng nổ sảng khoái giữa shot espresso đậm đặc và nước tonic sủi tăm thơm lừng hương thảo mộc.',
-      price: 59000,
-      image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
+      "id": "m-301",
+      "cafeId": "cafe-3",
+      "name": "Espresso Tonic Chanh Vàng Vani",
+      "category": "signature",
+      "categoryName": "Sparkling",
+      "description": "Sự bùng nổ sảng khoái giữa shot espresso đậm đặc và nước tonic sủi tăm thơm lừng hương thảo mộc.",
+      "price": 59000,
+      "image": "/menu/m-301.png",
+      "isAvailable": true,
+      "isPopular": true
     },
     {
-      id: 'm-302',
-      cafeId: 'cafe-3',
-      name: 'Cappuccino Kem Hạt Dẻ Cười (Pistachio)',
-      category: 'coffee',
-      categoryName: 'Cà Phê Ý',
-      description: 'Cà phê cappuccino kinh điển rắc vụn hạt dẻ cười rang và syrup pistachio tự nhiên.',
-      price: 62000,
-      image: 'https://images.unsplash.com/photo-1572442388796-11668ba67e53?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
+      "id": "m-302",
+      "cafeId": "cafe-3",
+      "name": "Cappuccino Kem Hạt Dẻ Cười (Pistachio)",
+      "category": "coffee",
+      "categoryName": "Specialty Coffee",
+      "description": "Cà phê cappuccino kinh điển rắc vụn hạt dẻ cười rang và syrup pistachio tự nhiên.",
+      "price": 62000,
+      "image": "/menu/m-302.png",
+      "isAvailable": true,
+      "isPopular": true
     },
     {
-      id: 'm-303',
-      cafeId: 'cafe-3',
-      name: 'Bánh Mì Chuối Hạt Óc Chó (Banana Bread)',
-      category: 'pastry',
-      categoryName: 'Bánh Nướng',
-      description: 'Bánh nướng mới mỗi sáng từ chuối chín tự nhiên, không đường tinh luyện, giàu năng lượng.',
-      price: 42000,
-      image: 'https://images.unsplash.com/photo-1605697669351-51206145a32b?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
+      "id": "m-303",
+      "cafeId": "cafe-3",
+      "name": "Bánh Mì Chuối Hạt Óc Chó (Banana Bread)",
+      "category": "pastry",
+      "categoryName": "Bakery & Pastry",
+      "description": "Bánh nướng mới mỗi sáng từ chuối chín tự nhiên, không đường tinh luyện, giàu năng lượng.",
+      "price": 42000,
+      "image": "/menu/m-303.png",
+      "isAvailable": true
     }
   ],
-  'cafe-4': [
+  "cafe-4": [
     {
-      id: 'm-401',
-      cafeId: 'cafe-4',
-      name: 'Drip Coffee Geisha Panama Thượng Hạng',
-      category: 'signature',
-      categoryName: 'Cà Phê Pha Thủ Công',
-      description: 'Pha thủ công bằng phễu V60, hương hoa nhài thanh khiết, vị cam bergamot và đào chín mọng.',
-      price: 95000,
-      image: 'https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
+      "id": "m-401",
+      "cafeId": "cafe-4",
+      "name": "Drip Coffee Geisha Panama Thượng Hạng",
+      "category": "signature",
+      "categoryName": "Sparkling",
+      "description": "Pha thủ công bằng phễu V60, hương hoa nhài thanh khiết, vị cam bergamot và đào chín mọng.",
+      "price": 95000,
+      "image": "/menu/m-401.png",
+      "isAvailable": true,
+      "isPopular": true
     },
     {
-      id: 'm-402',
-      cafeId: 'cafe-4',
-      name: 'Cold Brew Đào Cam Sả Thảo Mộc',
-      category: 'signature',
-      categoryName: 'Món Đặc Trưng',
-      description: 'Hương vị trái cây nhiệt đới ngọt mát, giúp tỉnh táo tối đa khi làm việc cả ngày dài.',
-      price: 65000,
-      image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
+      "id": "m-402",
+      "cafeId": "cafe-4",
+      "name": "Cold Brew Đào Cam Sả Thảo Mộc",
+      "category": "signature",
+      "categoryName": "Sparkling",
+      "description": "Hương vị trái cây nhiệt đới ngọt mát, giúp tỉnh táo tối đa khi làm việc cả ngày dài.",
+      "price": 65000,
+      "image": "/menu/m-402.png",
+      "isAvailable": true
     },
     {
-      id: 'm-403',
-      cafeId: 'cafe-4',
-      name: 'Tiramisu Cổ Điển Rượu Kahlua',
-      category: 'pastry',
-      categoryName: 'Bánh Nướng & Tráng Miệng',
-      description: 'Lớp bánh ladyfinger đẫm espresso và kem phô mai mascarpone rắc bột cacao nguyên chất đắng nhẹ.',
-      price: 58000,
-      image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=600&q=80',
-      isAvailable: true,
-      isPopular: true,
+      "id": "m-403",
+      "cafeId": "cafe-4",
+      "name": "Tiramisu Cổ Điển Rượu Kahlua",
+      "category": "pastry",
+      "categoryName": "Bakery & Pastry",
+      "description": "Lớp bánh ladyfinger đẫm espresso và kem phô mai mascarpone rắc bột cacao nguyên chất đắng nhẹ.",
+      "price": 58000,
+      "image": "/menu/m-403.png",
+      "isAvailable": true,
+      "isPopular": true
     }
   ]
 };

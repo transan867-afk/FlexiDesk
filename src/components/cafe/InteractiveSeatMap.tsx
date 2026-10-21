@@ -401,7 +401,7 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-3xl p-4 sm:p-7 border border-[#FFD9E2]/80 shadow-card">
+    <div className="bg-white rounded-3xl p-3 sm:p-7 border border-[#FFD9E2]/80 shadow-card overflow-hidden">
       
       {/* Top Map Header & Floor Switcher */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -451,18 +451,18 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
       )}
 
       {/* Floor Selection Tabs */}
-      <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2 scrollbar-none">
+      <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-1 scrollbar-none">
         <button
           type="button"
           onClick={() => setActiveFloor(1)}
-          className={`px-5 py-2.5 rounded-2xl text-xs font-extrabold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
+          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs font-extrabold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
             activeFloor === 1
               ? 'bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] text-white shadow-pink-200 shadow-md'
               : 'bg-[#FFF9EE] text-[#2E1A12] hover:bg-[#FCECEF] border border-[#FFD9E2]/70'
           }`}
         >
           <Layers className="w-3.5 h-3.5" />
-          <span>Tầng 1 (Trệt): Sơ Đồ Không Gian Mở & Sofa Lượn Sóng</span>
+          <span>Tầng 1 (Trệt): Không Gian Mở</span>
           <span className={`px-2 py-0.5 rounded-full text-[10px] ${
             activeFloor === 1 ? 'bg-white/20 text-white' : 'bg-stone-200 text-[#2E1A12]'
           }`}>
@@ -473,14 +473,14 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
         <button
           type="button"
           onClick={() => setActiveFloor(2)}
-          className={`px-5 py-2.5 rounded-2xl text-xs font-extrabold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
+          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-xs font-extrabold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 ${
             activeFloor === 2
               ? 'bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] text-white shadow-pink-200 shadow-md'
               : 'bg-[#FFF9EE] text-[#2E1A12] hover:bg-[#FCECEF] border border-[#FFD9E2]/70'
           }`}
         >
           <Layers className="w-3.5 h-3.5" />
-          <span>Tầng 2: Không Gian Yên Tĩnh & Phòng Họp Kính</span>
+          <span>Tầng 2: Yên Tĩnh & Phòng Họp Kính</span>
           <span className={`px-2 py-0.5 rounded-full text-[10px] ${
             activeFloor === 2 ? 'bg-white/20 text-white' : 'bg-stone-200 text-[#2E1A12]'
           }`}>
@@ -489,58 +489,56 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
         </button>
       </div>
 
-      {/* Mobile Swipe Notice (visible only on mobile) */}
-      <div className="flex sm:hidden items-center justify-between text-[11px] text-stone-500 bg-[#FFF9EE] px-3.5 py-1.5 rounded-xl border border-[#FFD9E2] mb-3 font-medium">
-        <span>👉 Vuốt ngang để xem toàn bộ sơ đồ</span>
-        <span className="text-[#FF5C8D] font-bold">Chạm để chọn chỗ</span>
+      {/* Mobile Touch Guidance Notice */}
+      <div className="flex sm:hidden items-center justify-center text-[11px] text-stone-500 bg-[#FFF9EE] px-3.5 py-1.5 rounded-xl border border-[#FFD9E2] mb-3 font-medium text-center">
+        <span>Chạm trực tiếp vào bàn trên sơ đồ để chọn chỗ ngồi</span>
       </div>
 
       {/* ================= ARCHITECTURAL FLOOR CANVAS ================= */}
-      <div className="w-full overflow-x-auto pb-2 scrollbar-thin">
-        <div className="min-w-[460px] sm:min-w-0">
-          <div className="relative w-full aspect-square max-w-3xl mx-auto bg-[#FDFBF7] rounded-[36px] border-4 border-stone-300 p-4 sm:p-8 overflow-hidden shadow-inner select-none">
+      <div className="w-full max-w-3xl mx-auto">
+        <div className="relative w-full aspect-square bg-[#FDFBF7] rounded-2xl sm:rounded-[36px] border-2 sm:border-4 border-stone-300 p-2 sm:p-8 overflow-hidden shadow-inner select-none">
         
-        {/* Architectural Dimensions indicator - positioned with clean clearance */}
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#FDFBF7] px-3 py-0.5 rounded-full border border-stone-300 text-[9px] font-mono text-stone-500 font-extrabold tracking-widest uppercase shadow-2xs z-20">
+        {/* Architectural Dimensions indicator - positioned with clean clearance (hidden on mobile to prevent overflow) */}
+        <div className="hidden sm:block absolute -top-3 left-1/2 -translate-x-1/2 bg-[#FDFBF7] px-3 py-0.5 rounded-full border border-stone-300 text-[9px] font-mono text-stone-500 font-extrabold tracking-widest uppercase shadow-2xs z-20">
           ← 10000 mm (10.0m) →
         </div>
-        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#FDFBF7] px-3 py-0.5 rounded-full border border-stone-300 text-[9px] font-mono text-stone-500 font-extrabold tracking-widest uppercase shadow-2xs z-20">
+        <div className="hidden sm:block absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#FDFBF7] px-3 py-0.5 rounded-full border border-stone-300 text-[9px] font-mono text-stone-500 font-extrabold tracking-widest uppercase shadow-2xs z-20">
           ← 10000 mm (10.0m) →
         </div>
-        <div className="absolute -left-3 top-1/2 -translate-y-1/2 -rotate-90 bg-[#FDFBF7] px-3 py-0.5 rounded-full border border-stone-300 text-[9px] font-mono text-stone-500 font-extrabold tracking-widest uppercase origin-center shadow-2xs z-20">
+        <div className="hidden sm:block absolute -left-3 top-1/2 -translate-y-1/2 -rotate-90 bg-[#FDFBF7] px-3 py-0.5 rounded-full border border-stone-300 text-[9px] font-mono text-stone-500 font-extrabold tracking-widest uppercase origin-center shadow-2xs z-20">
           ← 10000 mm →
         </div>
-        <div className="absolute -right-3 top-1/2 -translate-y-1/2 rotate-90 bg-[#FDFBF7] px-3 py-0.5 rounded-full border border-stone-300 text-[9px] font-mono text-stone-500 font-extrabold tracking-widest uppercase origin-center shadow-2xs z-20">
+        <div className="hidden sm:block absolute -right-3 top-1/2 -translate-y-1/2 rotate-90 bg-[#FDFBF7] px-3 py-0.5 rounded-full border border-stone-300 text-[9px] font-mono text-stone-500 font-extrabold tracking-widest uppercase origin-center shadow-2xs z-20">
           ← 10000 mm →
         </div>
 
         {/* Double interior architectural wall */}
-        <div className="absolute inset-4 sm:inset-6 border-2 border-dashed border-stone-200 rounded-[28px] pointer-events-none"></div>
+        <div className="absolute inset-2 sm:inset-6 border sm:border-2 border-dashed border-stone-200 rounded-2xl sm:rounded-[28px] pointer-events-none"></div>
 
         {/* Top wall natural window indicator - placed with clean margin */}
-        <div className="absolute top-2 left-16 right-16 h-2 bg-sky-200/90 border-b-2 border-sky-300 rounded-b flex items-center justify-center shadow-2xs z-10">
-          <span className="text-[8px] sm:text-[9px] text-sky-800 font-bold uppercase tracking-wider px-2.5 py-0.5 bg-white/95 rounded-full shadow-2xs">
+        <div className="absolute top-1 sm:top-2 left-8 sm:left-16 right-8 sm:right-16 h-1.5 sm:h-2 bg-sky-200/90 border-b sm:border-b-2 border-sky-300 rounded-b flex items-center justify-center shadow-2xs z-10">
+          <span className="text-[7px] sm:text-[9px] text-sky-800 font-bold uppercase tracking-wider px-2 py-0.5 bg-white/95 rounded-full shadow-2xs">
             Hàng Cửa Sổ Hướng Ánh Sáng Tự Nhiên
           </span>
         </div>
 
         {/* Floor 1: Bottom-left quiet corner partition outline (as shown in plan) */}
         {activeFloor === 1 && (
-          <div className="absolute bottom-6 left-6 w-24 sm:w-32 h-24 sm:h-32 border-t-2 border-r-2 border-stone-200 bg-stone-50/40 rounded-tr-2xl flex items-center justify-center pointer-events-none">
-            <span className="text-[8px] text-stone-400 font-bold tracking-wider uppercase">
-              Khu Vực Phụ Trợ
+          <div className="absolute bottom-2 sm:bottom-6 left-2 sm:left-6 w-16 sm:w-32 h-16 sm:h-32 border-t sm:border-t-2 border-r sm:border-r-2 border-stone-200 bg-stone-50/40 rounded-tr-xl sm:rounded-tr-2xl flex items-center justify-center pointer-events-none">
+            <span className="text-[7px] sm:text-[8px] text-stone-400 font-bold tracking-wider uppercase">
+              Khu Phụ Trợ
             </span>
           </div>
         )}
 
         {/* Floor 2: Spacious Glass Meeting Zone Enclosure (situated in bottom-left zone around M01, completely clear of top desks) */}
         {activeFloor === 2 && (
-          <div className="absolute bottom-6 left-6 w-64 sm:w-80 h-36 sm:h-44 border-2 border-dashed border-sky-400/80 bg-sky-50/30 rounded-3xl p-3 flex flex-col justify-between pointer-events-none z-0">
-            <div className="flex items-center justify-between text-[10px] font-extrabold text-sky-900">
-              <span className="flex items-center gap-1"><Tv className="w-3.5 h-3.5 text-sky-600" /> Vách Kính Cách Âm 100%</span>
-              <span className="text-[8px] bg-sky-200/80 text-sky-900 px-1.5 py-0.5 rounded font-bold">Phòng Họp Riêng</span>
+          <div className="absolute bottom-2 sm:bottom-6 left-2 sm:left-6 w-40 sm:w-80 h-24 sm:h-44 border sm:border-2 border-dashed border-sky-400/80 bg-sky-50/30 rounded-2xl sm:rounded-3xl p-1.5 sm:p-3 flex flex-col justify-between pointer-events-none z-0">
+            <div className="flex items-center justify-between text-[8px] sm:text-[10px] font-extrabold text-sky-900">
+              <span className="flex items-center gap-1"><Tv className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-sky-600" /> Vách Kính Cách Âm 100%</span>
+              <span className="text-[7px] sm:text-[8px] bg-sky-200/80 text-sky-900 px-1 py-0.5 rounded font-bold">Phòng Họp Riêng</span>
             </div>
-            <div className="text-[8px] text-sky-700/80 font-medium">
+            <div className="text-[7px] sm:text-[8px] text-sky-700/80 font-medium">
               Khu vực phòng họp riêng biệt • Có bảng trắng & màn hình trình chiếu
             </div>
           </div>
@@ -568,16 +566,16 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
                 {slot.shape === 'duo_h' && (
                   <div className="flex items-center justify-center">
                     {/* Left Chair */}
-                    <div className={`w-2.5 sm:w-3 h-7 sm:h-8 rounded-l-md border ${colors.chairBg} shadow-2xs`}></div>
+                    <div className={`w-1.5 sm:w-3 h-5 sm:h-8 rounded-l-md border ${colors.chairBg} shadow-2xs`}></div>
                     
                     {/* Center Table */}
-                    <div className={`w-9 sm:w-11 h-9 sm:h-11 rounded-xl border-2 mx-1 flex flex-col items-center justify-center font-extrabold shadow-sm ${colors.tableBg}`}>
-                      <span className="text-[10px] sm:text-xs font-black tracking-tight">{seat.code}</span>
-                      <span className="text-[8px] opacity-75 font-semibold leading-none">{seat.capacity}C</span>
+                    <div className={`w-7 sm:w-11 h-7 sm:h-11 rounded-lg sm:rounded-xl border sm:border-2 mx-0.5 sm:mx-1 flex flex-col items-center justify-center font-extrabold shadow-sm ${colors.tableBg}`}>
+                      <span className="text-[9px] sm:text-xs font-black tracking-tight">{seat.code}</span>
+                      <span className="text-[6px] sm:text-[8px] opacity-75 font-semibold leading-none">{seat.capacity}C</span>
                     </div>
 
                     {/* Right Chair */}
-                    <div className={`w-2.5 sm:w-3 h-7 sm:h-8 rounded-r-md border ${colors.chairBg} shadow-2xs`}></div>
+                    <div className={`w-1.5 sm:w-3 h-5 sm:h-8 rounded-r-md border ${colors.chairBg} shadow-2xs`}></div>
                   </div>
                 )}
 
@@ -585,16 +583,16 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
                 {slot.shape === 'duo_v' && (
                   <div className="flex flex-col items-center justify-center">
                     {/* Top Chair */}
-                    <div className={`w-7 sm:w-8 h-2.5 sm:h-3 rounded-t-md border ${colors.chairBg} shadow-2xs`}></div>
+                    <div className={`w-5 sm:w-8 h-1.5 sm:h-3 rounded-t-md border ${colors.chairBg} shadow-2xs`}></div>
                     
                     {/* Center Table */}
-                    <div className={`w-9 sm:w-11 h-9 sm:h-11 rounded-xl border-2 my-1 flex flex-col items-center justify-center font-extrabold shadow-sm ${colors.tableBg}`}>
-                      <span className="text-[10px] sm:text-xs font-black tracking-tight">{seat.code}</span>
-                      <span className="text-[8px] opacity-75 font-semibold leading-none">{seat.capacity}C</span>
+                    <div className={`w-7 sm:w-11 h-7 sm:h-11 rounded-lg sm:rounded-xl border sm:border-2 my-0.5 sm:my-1 flex flex-col items-center justify-center font-extrabold shadow-sm ${colors.tableBg}`}>
+                      <span className="text-[9px] sm:text-xs font-black tracking-tight">{seat.code}</span>
+                      <span className="text-[6px] sm:text-[8px] opacity-75 font-semibold leading-none">{seat.capacity}C</span>
                     </div>
 
                     {/* Bottom Chair */}
-                    <div className={`w-7 sm:w-8 h-2.5 sm:h-3 rounded-b-md border ${colors.chairBg} shadow-2xs`}></div>
+                    <div className={`w-5 sm:w-8 h-1.5 sm:h-3 rounded-b-md border ${colors.chairBg} shadow-2xs`}></div>
                   </div>
                 )}
 
@@ -602,16 +600,16 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
                 {slot.shape === 'curved_up' && (
                   <div className="relative flex flex-col items-center justify-center">
                     {/* Center Round Table */}
-                    <div className={`w-11 sm:w-13 h-11 sm:h-13 rounded-full border-2 flex flex-col items-center justify-center font-extrabold shadow-sm z-10 -mb-4 ${colors.tableBg}`}>
-                      <span className="text-[10px] sm:text-xs font-black">{seat.code}</span>
-                      <span className="text-[8px] opacity-75 font-semibold leading-none">{seat.capacity}C</span>
+                    <div className={`w-8 sm:w-13 h-8 sm:h-13 rounded-full border sm:border-2 flex flex-col items-center justify-center font-extrabold shadow-sm z-10 -mb-2.5 sm:-mb-4 ${colors.tableBg}`}>
+                      <span className="text-[9px] sm:text-xs font-black">{seat.code}</span>
+                      <span className="text-[6px] sm:text-[8px] opacity-75 font-semibold leading-none">{seat.capacity}C</span>
                     </div>
 
                     {/* Bottom Curved Crescent Sofa (open upwards) */}
-                    <div className={`w-24 sm:w-32 h-12 sm:h-16 rounded-b-full border-b-4 border-l-4 border-r-4 ${colors.sofaBg} flex items-end justify-around pb-1 shadow-xs`}>
-                      <span className="w-1.5 h-1.5 rounded-full bg-current opacity-30"></span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-current opacity-30"></span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-current opacity-30"></span>
+                    <div className={`w-18 sm:w-32 h-9 sm:h-16 rounded-b-full border-b-2 sm:border-b-4 border-l-2 sm:border-l-4 border-r-2 sm:border-r-4 ${colors.sofaBg} flex items-end justify-around pb-0.5 sm:pb-1 shadow-xs`}>
+                      <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-current opacity-30"></span>
+                      <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-current opacity-30"></span>
+                      <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-current opacity-30"></span>
                     </div>
                   </div>
                 )}
@@ -620,16 +618,16 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
                 {slot.shape === 'curved_down' && (
                   <div className="relative flex flex-col items-center justify-center">
                     {/* Top Curved Crescent Sofa (open downwards) */}
-                    <div className={`w-24 sm:w-32 h-12 sm:h-16 rounded-t-full border-t-4 border-l-4 border-r-4 ${colors.sofaBg} flex items-start justify-around pt-1 shadow-xs`}>
-                      <span className="w-1.5 h-1.5 rounded-full bg-current opacity-30"></span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-current opacity-30"></span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-current opacity-30"></span>
+                    <div className={`w-18 sm:w-32 h-9 sm:h-16 rounded-t-full border-t-2 sm:border-t-4 border-l-2 sm:border-l-4 border-r-2 sm:border-r-4 ${colors.sofaBg} flex items-start justify-around pt-0.5 sm:pt-1 shadow-xs`}>
+                      <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-current opacity-30"></span>
+                      <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-current opacity-30"></span>
+                      <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-current opacity-30"></span>
                     </div>
 
                     {/* Center Round Table */}
-                    <div className={`w-11 sm:w-13 h-11 sm:h-13 rounded-full border-2 flex flex-col items-center justify-center font-extrabold shadow-sm z-10 -mt-4 ${colors.tableBg}`}>
-                      <span className="text-[10px] sm:text-xs font-black">{seat.code}</span>
-                      <span className="text-[8px] opacity-75 font-semibold leading-none">{seat.capacity}C</span>
+                    <div className={`w-8 sm:w-13 h-8 sm:h-13 rounded-full border sm:border-2 flex flex-col items-center justify-center font-extrabold shadow-sm z-10 -mt-2.5 sm:-mt-4 ${colors.tableBg}`}>
+                      <span className="text-[9px] sm:text-xs font-black">{seat.code}</span>
+                      <span className="text-[6px] sm:text-[8px] opacity-75 font-semibold leading-none">{seat.capacity}C</span>
                     </div>
                   </div>
                 )}
@@ -638,11 +636,11 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
                 {slot.shape === 'corner_lounge' && (
                   <div className="relative flex items-center justify-center">
                     {/* L-shaped surrounding sofa wrapper */}
-                    <div className={`w-24 sm:w-32 h-20 sm:h-24 rounded-tr-3xl rounded-br-3xl rounded-bl-3xl border-2 ${colors.sofaBg} p-2 flex flex-col justify-center items-center shadow-md`}>
+                    <div className={`w-18 sm:w-32 h-14 sm:h-24 rounded-tr-2xl sm:rounded-tr-3xl rounded-br-2xl sm:rounded-br-3xl rounded-bl-2xl sm:rounded-bl-3xl border sm:border-2 ${colors.sofaBg} p-1 sm:p-2 flex flex-col justify-center items-center shadow-md`}>
                       {/* Oval Coffee Table */}
-                      <div className={`w-14 sm:w-18 h-8 sm:h-10 rounded-full border-2 flex flex-col items-center justify-center font-black shadow-sm ${colors.tableBg}`}>
-                        <span className="text-[10px] sm:text-xs font-black">{seat.code}</span>
-                        <span className="text-[7px] sm:text-[8px] font-bold opacity-80 leading-none">VIP • {seat.capacity} Chỗ</span>
+                      <div className={`w-11 sm:w-18 h-6 sm:h-10 rounded-full border sm:border-2 flex flex-col items-center justify-center font-black shadow-sm ${colors.tableBg}`}>
+                        <span className="text-[9px] sm:text-xs font-black">{seat.code}</span>
+                        <span className="text-[6px] sm:text-[8px] font-bold opacity-80 leading-none">VIP • {seat.capacity}C</span>
                       </div>
                     </div>
                   </div>
@@ -652,26 +650,26 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
                 {slot.shape === 'single_desk' && (
                   <div className="flex flex-col items-center justify-center">
                     {/* Desk Partition Screen */}
-                    <div className="w-10 sm:w-12 h-1 bg-stone-400 rounded-full mb-0.5"></div>
+                    <div className="w-7 sm:w-12 h-0.5 sm:h-1 bg-stone-400 rounded-full mb-0.5"></div>
                     {/* Desk Table */}
-                    <div className={`w-10 sm:w-12 h-9 sm:h-10 rounded-xl border-2 flex flex-col items-center justify-center font-extrabold shadow-sm ${colors.tableBg}`}>
-                      <span className="text-[10px] sm:text-xs font-black">{seat.code}</span>
-                      <span className="text-[8px] opacity-75">Focus</span>
+                    <div className={`w-7 sm:w-12 h-6 sm:h-10 rounded-lg sm:rounded-xl border sm:border-2 flex flex-col items-center justify-center font-extrabold shadow-sm ${colors.tableBg}`}>
+                      <span className="text-[8px] sm:text-xs font-black">{seat.code}</span>
+                      <span className="text-[6px] sm:text-[8px] opacity-75">Focus</span>
                     </div>
                     {/* Ergonomic Chair */}
-                    <div className={`w-6 sm:w-7 h-2.5 rounded-b-md border ${colors.chairBg} mt-1`}></div>
+                    <div className={`w-4 sm:w-7 h-1.5 sm:h-2.5 rounded-b-md border ${colors.chairBg} mt-0.5 sm:mt-1`}></div>
                   </div>
                 )}
 
                 {/* 7. MEETING ROOM EMBEDDED SEAT BUTTON */}
                 {slot.shape === 'meeting_room' && (
-                  <div className={`p-3 sm:p-5 rounded-2xl border-2 flex flex-col items-center justify-center shadow-md ${colors.tableBg}`}>
-                    <Tv className="w-5 h-5 mb-1 text-sky-600" />
-                    <span className="font-black text-xs sm:text-sm">{seat.code}</span>
-                    <span className="text-[9px] font-bold mt-0.5">{seat.name}</span>
-                    <span className="text-[8px] opacity-80 mt-0.5">{seat.capacity} chỗ • Có màn hình</span>
+                  <div className={`p-1.5 sm:p-5 rounded-xl sm:rounded-2xl border sm:border-2 flex flex-col items-center justify-center shadow-md ${colors.tableBg}`}>
+                    <Tv className="w-3.5 sm:w-5 h-3.5 sm:h-5 mb-0.5 sm:mb-1 text-sky-600" />
+                    <span className="font-black text-[9px] sm:text-sm">{seat.code}</span>
+                    <span className="text-[7px] sm:text-[9px] font-bold mt-0.5">{seat.name}</span>
+                    <span className="text-[6px] sm:text-[8px] opacity-80 mt-0.5">{seat.capacity} chỗ</span>
                     {seat.hourlyRate > 0 && (
-                      <span className="text-[9px] font-black text-brand-coral mt-0.5">{formatVND(seat.hourlyRate)}</span>
+                      <span className="text-[7px] sm:text-[9px] font-black text-brand-coral mt-0.5">{formatVND(seat.hourlyRate)}</span>
                     )}
                   </div>
                 )}
@@ -681,7 +679,6 @@ export const InteractiveSeatMap: React.FC<InteractiveSeatMapProps> = ({
           })}
         </div>
 
-          </div>
         </div>
       </div>
 
