@@ -99,6 +99,7 @@ export interface Cafe {
   reviews: CafeReview[];
   ownerId?: string;
   status?: 'active' | 'pending_approval' | 'suspended';
+  partnerPlan?: 'starter' | 'business';
 }
 
 export interface CartItem {

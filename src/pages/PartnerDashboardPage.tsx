@@ -40,21 +40,31 @@ import {
   Timer,
   Check,
   AlertCircle,
-  ChevronRight
+  ChevronRight,
+  Sparkles,
+  ShieldCheck,
+  CreditCard,
+  Award
 } from 'lucide-react';
 
 export const PartnerDashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
 
-  // Active view tab (Added 'reports' tab)
-  const [activeTab, setActiveTab] = useState<'pos' | 'menu' | 'tables' | 'orders' | 'reports' | 'settings'>('pos');
+  // Active view tab (Added 'reports' & 'packages' tab)
+  const [activeTab, setActiveTab] = useState<'pos' | 'menu' | 'tables' | 'orders' | 'reports' | 'packages' | 'settings'>('pos');
 
   // Load cafe managed by this partner
   const [cafe, setCafe] = useState<Cafe | null>(null);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [bookings, setBookings] = useState<BookingOrder[]>([]);
   const [notice, setNotice] = useState<string | null>(null);
+
+  // Partner Subscription Plan State (Gói Business 1.999.000 VNĐ)
+  const [partnerPlan, setPartnerPlan] = useState<'starter' | 'business'>('starter');
+  const [isBusinessModalOpen, setIsBusinessModalOpen] = useState(false);
+  const [businessPaymentMethod, setBusinessPaymentMethod] = useState<'vietqr' | 'momo' | 'bank_transfer'>('vietqr');
+  const [isActivatingBusiness, setIsActivatingBusiness] = useState(false);
 
   // POS State (Menu first by default!)
   const [posCart, setPosCart] = useState<{ item: MenuItem; quantity: number }[]>([]);
@@ -142,6 +152,15 @@ export const PartnerDashboardPage: React.FC = () => {
       setMenuItems(db.getMenuByCafe(currentCafe.id));
       setCategories(db.getMenuCategories(currentCafe.id));
       setBookings(db.getBookingsByCafe(currentCafe.id));
+      
+      // Load active plan for this partner cafe
+      const storedPlan = localStorage.getItem(`flexidesk_partner_plan_${currentCafe.id}`);
+      if (storedPlan === 'business' || currentCafe.partnerPlan === 'business') {
+        setPartnerPlan('business');
+      } else {
+        setPartnerPlan('starter');
+      }
+
       setSettingsFormData({
         name: currentCafe.name,
         tagline: currentCafe.tagline,
@@ -153,6 +172,27 @@ export const PartnerDashboardPage: React.FC = () => {
         powerSockets: currentCafe.features.powerSockets,
       });
     }
+  };
+
+  const handleSubscribeBusiness = () => {
+    if (!cafe) return;
+    setIsActivatingBusiness(true);
+    setTimeout(() => {
+      setIsActivatingBusiness(false);
+      db.updateCafe(cafe.id, { partnerPlan: 'business' });
+      localStorage.setItem(`flexidesk_partner_plan_${cafe.id}`, 'business');
+      setPartnerPlan('business');
+      setIsBusinessModalOpen(false);
+      triggerNotice(`🎉 Quán "${cafe.name}" đã nâng cấp thành công GÓI BUSINESS (1.999.000 VNĐ)! Đã kích hoạt toàn bộ đặc quyền.`);
+    }, 1200);
+  };
+
+  const handleDowngradeToStarter = () => {
+    if (!cafe) return;
+    db.updateCafe(cafe.id, { partnerPlan: 'starter' });
+    localStorage.setItem(`flexidesk_partner_plan_${cafe.id}`, 'starter');
+    setPartnerPlan('starter');
+    triggerNotice(`Đã chuyển quán "${cafe.name}" về Gói Khởi Đầu (Cơ bản).`);
   };
 
   useEffect(() => {
@@ -662,8 +702,7 @@ export const PartnerDashboardPage: React.FC = () => {
             <div className="text-[10px] text-[#FFD9E2] uppercase font-bold">Quán đang quản lý</div>
             <div className="font-bold text-sm truncate mt-0.5">{cafe.name}</div>
             <Link
-              to={`/cafes/${cafe.id}`}
-              target="_blank"
+              to="/"
               className="text-[11px] text-[#FFD9E2] hover:text-white flex items-center gap-1 mt-1 font-semibold"
             >
               <span>Xem trang ngoài web</span>
@@ -761,6 +800,27 @@ export const PartnerDashboardPage: React.FC = () => {
             </button>
 
             <button
+              onClick={() => setActiveTab('packages')}
+              className={`shrink-0 md:shrink md:w-full whitespace-nowrap flex items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeTab === 'packages'
+                  ? 'bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] text-white shadow-md'
+                  : 'text-stone-300 hover:bg-white/10 hover:text-white'
+              }`}
+            >
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span>Gói Dịch Vụ & Mua Gói</span>
+              </div>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-black uppercase ${
+                partnerPlan === 'business'
+                  ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-400/40'
+                  : 'bg-amber-400/25 text-amber-300 border border-amber-400/40'
+              }`}>
+                {partnerPlan === 'business' ? 'VIP' : 'Business'}
+              </span>
+            </button>
+
+            <button
               onClick={() => setActiveTab('settings')}
               className={`shrink-0 md:shrink md:w-full whitespace-nowrap flex items-center gap-2 sm:gap-3 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-bold transition-all ${
                 activeTab === 'settings'
@@ -813,10 +873,28 @@ export const PartnerDashboardPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="text-xs bg-[#FFF9EE] text-[#2E1A12] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-[#FFD9E2]">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+            {partnerPlan === 'business' ? (
+              <button
+                onClick={() => setActiveTab('packages')}
+                className="text-xs bg-gradient-to-r from-amber-500/15 via-rose-500/10 to-amber-500/15 text-[#2E1A12] font-black px-3.5 py-2 rounded-2xl flex items-center gap-1.5 border border-amber-300 shadow-2xs hover:bg-amber-50 transition-colors cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
+                <span>Gói Business (Đối Tác VIP)</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsBusinessModalOpen(true)}
+                className="text-xs bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] hover:from-[#E83D70] hover:to-[#C2185B] text-white font-black px-3.5 py-2 rounded-2xl flex items-center gap-1.5 shadow-soft transition-all transform hover:scale-105 cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5 fill-pink-200" />
+                <span>Nâng Cấp Gói Business (1.999.000 VNĐ)</span>
+              </button>
+            )}
+
+            <span className="hidden xl:flex text-xs bg-[#FFF9EE] text-[#2E1A12] font-bold px-3 py-2 rounded-2xl items-center gap-1.5 border border-[#FFD9E2]">
               <span className="w-2 h-2 rounded-full bg-[#FF5C8D] animate-pulse"></span>
-              Đang kết nối Database Online
+              Online
             </span>
             <Link
               to="/"
@@ -2195,6 +2273,285 @@ export const PartnerDashboardPage: React.FC = () => {
           </div>
         )}
 
+        {/* ================= TAB 7: GÓI DỊCH VỤ & MUA GÓI (BUSINESS PARTNER) ================= */}
+        {activeTab === 'packages' && (
+          <div className="space-y-8 animate-fadeIn">
+            {/* Top Banner */}
+            <div className="bg-gradient-to-br from-[#2E1A12] via-[#3D2319] to-[#2E1A12] rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-xl border border-white/10">
+              <div className="absolute top-0 right-0 -mt-10 -mr-10 w-72 h-72 bg-[#FF5C8D]/20 rounded-full blur-3xl pointer-events-none"></div>
+              <div className="relative z-10 max-w-3xl">
+                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-[#FFD9E2] text-xs font-bold mb-4">
+                  <Sparkles className="w-4 h-4 text-amber-300" />
+                  <span>Giải Pháp Vận Hành Toàn Diện Cho Quán Cà Phê Đối Tác</span>
+                </div>
+                <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+                  Gói Dịch Vụ & Mua Gói Đối Tác FlexiDesk
+                </h2>
+                <p className="mt-3 text-stone-300 text-xs sm:text-sm leading-relaxed max-w-2xl">
+                  Nâng tầm trải nghiệm vận hành quán cà phê của bạn. Tiết kiệm 100% phí hoa hồng, tự động giải phóng bàn auto-release sau 15 phút và tiếp cận cộng đồng hàng chục nghìn khách hàng tiềm năng.
+                </p>
+
+                {/* Current Active Plan Status Bar */}
+                <div className="mt-6 p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center font-black text-lg ${
+                      partnerPlan === 'business'
+                        ? 'bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-md'
+                        : 'bg-white/20 text-white'
+                    }`}>
+                      {partnerPlan === 'business' ? '★' : 'FD'}
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-stone-300 uppercase font-bold tracking-wider">Trạng thái gói hiện tại của quán:</div>
+                      <div className="font-extrabold text-sm sm:text-base text-white flex items-center gap-2 mt-0.5">
+                        <span>{partnerPlan === 'business' ? 'Gói Business (Đối Tác Chiến Lược)' : 'Gói Khởi Đầu (Cơ Bản)'}</span>
+                        <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase ${
+                          partnerPlan === 'business'
+                            ? 'bg-emerald-500 text-white shadow-xs'
+                            : 'bg-stone-500 text-stone-200'
+                        }`}>
+                          {partnerPlan === 'business' ? '✓ Đang kích hoạt' : 'Miễn phí'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {partnerPlan === 'starter' ? (
+                    <button
+                      onClick={() => setIsBusinessModalOpen(true)}
+                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] hover:from-[#E83D70] hover:to-[#C2185B] text-white font-black text-xs shadow-md transition-all transform hover:scale-105 cursor-pointer whitespace-nowrap self-start sm:self-auto flex items-center gap-1.5"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Nâng Cấp Gói Business (1.999.000 VNĐ)</span>
+                    </button>
+                  ) : (
+                    <div className="text-right">
+                      <span className="text-[11px] text-amber-200 block font-semibold">Ưu đãi 0% hoa hồng vĩnh viễn</span>
+                      <span className="text-xs text-white/90 font-mono">Hạn chu kỳ: 31/12/2026</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Pricing Packages Comparison (2 Cards) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch max-w-5xl mx-auto">
+              
+              {/* Card 1: Gói Khởi Đầu (Starter - 0đ) */}
+              <div className={`rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all ${
+                partnerPlan === 'starter'
+                  ? 'bg-white border-2 border-stone-300 shadow-md ring-2 ring-stone-200'
+                  : 'bg-white border border-stone-200/80 shadow-xs'
+              }`}>
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Gói Cơ Bản</span>
+                    {partnerPlan === 'starter' && (
+                      <span className="text-[10px] font-black bg-stone-100 text-stone-700 px-3 py-1 rounded-full border border-stone-200">
+                        Đang áp dụng
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-2xl font-black text-[#2E1A12]">Gói Khởi Đầu</h3>
+                  <p className="text-xs text-stone-500 mt-2 leading-relaxed">
+                    Dành cho các quán mới tham gia thử nghiệm hệ sinh thái FlexiDesk với lượng khách vừa phải.
+                  </p>
+
+                  <div className="my-6">
+                    <span className="text-4xl font-black text-stone-900">0 đ</span>
+                    <span className="text-xs text-stone-500 ml-1.5 font-medium">/ miễn phí trọn đời</span>
+                  </div>
+
+                  <ul className="space-y-3.5 text-xs text-stone-700 border-t border-stone-100 pt-5">
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-stone-600 shrink-0 mt-0.5" />
+                      <span>Phí hoa hồng giao dịch: <strong>10%</strong> / đơn đặt trước</span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-stone-600 shrink-0 mt-0.5" />
+                      <span>Quản lý sơ đồ bàn 1 tầng tiêu chuẩn (Tối đa 15 bàn)</span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-stone-600 shrink-0 mt-0.5" />
+                      <span>Hệ thống POS bán hàng & ghi nhận check-in đơn</span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-stone-600 shrink-0 mt-0.5" />
+                      <span>Quản lý thực đơn món nước và danh mục cơ bản</span>
+                    </li>
+                    <li className="flex items-start gap-2.5 text-stone-400">
+                      <span className="w-4 text-center font-bold">✕</span>
+                      <span>Không hỗ trợ sơ đồ bàn đa tầng (Tầng 2, Tầng 3...)</span>
+                    </li>
+                    <li className="flex items-start gap-2.5 text-stone-400">
+                      <span className="w-4 text-center font-bold">✕</span>
+                      <span>Không ưu tiên hiển thị Top 1 trang chủ</span>
+                    </li>
+                    <li className="flex items-start gap-2.5 text-stone-400">
+                      <span className="w-4 text-center font-bold">✕</span>
+                      <span>Hỗ trợ kỹ thuật qua email tiêu chuẩn</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-stone-100">
+                  {partnerPlan === 'starter' ? (
+                    <div className="w-full py-3.5 rounded-full bg-stone-100 text-stone-500 font-bold text-xs text-center border border-stone-200">
+                      ✓ Đang Sử Dụng Gói Khởi Đầu
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleDowngradeToStarter}
+                      className="w-full py-3.5 rounded-full border-2 border-stone-300 text-stone-700 font-bold text-xs hover:bg-stone-50 transition-colors cursor-pointer"
+                    >
+                      Chuyển Về Gói Khởi Đầu
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Card 2: Gói Business (Đối Tác Chiến Lược - Nổi Bật) */}
+              <div className={`rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative transform transition-all ${
+                partnerPlan === 'business'
+                  ? 'bg-gradient-to-b from-[#FFF9EE] via-white to-[#FCECEF]/40 border-3 border-amber-400 shadow-xl ring-4 ring-amber-300/30'
+                  : 'bg-gradient-to-b from-white via-[#FFF9EE] to-[#FCECEF]/40 border-3 border-[#FF5C8D] shadow-xl'
+              }`}>
+                {/* Top Floating Badge */}
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 via-[#FF5C8D] to-[#E83D70] text-white font-black text-[11px] uppercase tracking-wider px-4 py-1.5 rounded-full shadow-md flex items-center gap-1.5 whitespace-nowrap">
+                  <Sparkles className="w-3.5 h-3.5 fill-current" />
+                  <span>Khuyên Dùng Cho Quán Cà Phê Đối Tác</span>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-black uppercase tracking-wider text-[#FF5C8D]">Đối Tác Chiến Lược</span>
+                    {partnerPlan === 'business' ? (
+                      <span className="text-[10px] font-black bg-emerald-500 text-white px-3 py-1 rounded-full shadow-xs flex items-center gap-1">
+                        <Check className="w-3 h-3" /> Đang Kích Hoạt
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-black bg-amber-400/20 text-amber-800 border border-amber-300 px-2.5 py-0.5 rounded-full">
+                        Hot Partner
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-black text-[#2E1A12] flex items-center gap-2">
+                    <span>Gói Business</span>
+                    <span className="text-xs bg-[#FCECEF] text-[#FF5C8D] px-2.5 py-0.5 rounded-full font-bold border border-[#FFD9E2]">VIP</span>
+                  </h3>
+                  
+                  {/* Exact description required by user */}
+                  <div className="mt-3 p-3.5 rounded-2xl bg-[#FFF9EE] border border-[#FFD9E2] text-xs font-bold text-[#2E1A12] leading-relaxed shadow-2xs">
+                    ⭐ <strong>Gói Business:</strong> dành cho các quán cà phê đối tác có lượng khách đặt chỗ lớn và tần suất giao dịch ổn định (≥ 12 lượt đặt chỗ/ngày)
+                  </div>
+
+                  <div className="my-6">
+                    <span className="text-4xl sm:text-5xl font-black text-[#FF5C8D]">
+                      1.999.000 VNĐ
+                    </span>
+                    <span className="text-xs text-stone-500 ml-1.5 font-medium">/ tháng</span>
+                  </div>
+
+                  <ul className="space-y-3.5 text-xs text-[#2E1A12] border-t border-stone-100 pt-5">
+                    <li className="flex items-start gap-2.5 font-black text-emerald-800 bg-emerald-50/80 p-2.5 rounded-xl border border-emerald-200">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span>0% PHÍ HOA HỒNG GIAO DỊCH (Quán nhận trọn vẹn 100% doanh thu)</span>
+                    </li>
+                    <li className="flex items-start gap-2.5 font-bold text-[#2E1A12]">
+                      <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                      <span>Xử lý mượt mà lưu lượng lớn & tần suất giao dịch ổn định (≥ 12 lượt đặt chỗ/ngày)</span>
+                    </li>
+                    <li className="flex items-start gap-2.5 font-bold text-[#FF5C8D]">
+                      <Check className="w-4 h-4 text-[#FF5C8D] shrink-0 mt-0.5" />
+                      <span>Sơ đồ bàn Interactive Seat Map Không Giới Hạn & Đa Tầng (Tầng 1, Tầng 2 Silent, Rooftop...)</span>
+                    </li>
+                    <li className="flex items-start gap-2.5 font-bold text-stone-800">
+                      <Clock className="w-4 h-4 text-[#FF6433] shrink-0 mt-0.5" />
+                      <span>Tự động đếm ngược 15 phút theo giờ check-in & tự động giải phóng bàn (Auto-Release) khi khách trễ</span>
+                    </li>
+                    <li className="flex items-start gap-2.5 font-bold text-stone-800">
+                      <Check className="w-4 h-4 text-[#FF5C8D] shrink-0 mt-0.5" />
+                      <span>Tự động đồng bộ trạng thái bàn sang "Khách đang ngồi" ngay khi nhân viên thao tác gán bàn</span>
+                    </li>
+                    <li className="flex items-start gap-2.5 font-bold text-amber-700">
+                      <Award className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                      <span>Huy hiệu "Đối tác chiến lược" Top 1: Ghim vị trí đầu trang chủ & ưu tiên gợi ý khách hàng</span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <BarChart3 className="w-4 h-4 text-[#FF5C8D] shrink-0 mt-0.5" />
+                      <span>Báo cáo doanh thu & phân tích chuyên sâu (khung giờ vàng, món bán chạy, dự báo AI)</span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                      <span>Hỗ trợ kỹ thuật VIP 24/7 & chuyên viên đồng hành setup sơ đồ bàn thực tế</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-stone-100">
+                  {partnerPlan === 'business' ? (
+                    <div className="space-y-2">
+                      <div className="w-full py-3.5 rounded-full bg-emerald-500 text-white font-black text-xs text-center shadow-md flex items-center justify-center gap-2">
+                        <Check className="w-4 h-4" />
+                        <span>Quán Đang Hoạt Động Với Gói Business (VIP)</span>
+                      </div>
+                      <button
+                        onClick={() => setIsBusinessModalOpen(true)}
+                        className="w-full py-2.5 rounded-full border border-amber-300 text-amber-800 font-bold text-[11px] hover:bg-amber-50 transition-colors text-center cursor-pointer"
+                      >
+                        Gia Hạn Thêm / Xem Thông Tin Thanh Toán
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setIsBusinessModalOpen(true)}
+                      className="w-full py-4 rounded-full bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] hover:from-[#E83D70] hover:to-[#C2185B] text-white font-black text-sm shadow-pink-200 shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Sparkles className="w-4 h-4" />
+                      <span>Mua Gói Business 1.999.000 VNĐ Ngay</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+            {/* 3 Value Pillars for Partner */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto pt-4">
+              <div className="bg-white p-5 rounded-2xl border border-[#FFD9E2] shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-[#FCECEF] text-[#FF5C8D] flex items-center justify-center font-black mb-3">
+                  0%
+                </div>
+                <h4 className="font-extrabold text-sm text-[#2E1A12] mb-1">Tiết Kiệm Phí Hoa Hồng</h4>
+                <p className="text-xs text-stone-500 leading-relaxed">
+                  Với tần suất ≥ 12 lượt đặt/ngày, gói Business giúp quán tiết kiệm từ 3 - 8 triệu đồng phí hoa hồng mỗi tháng so với gói thông thường.
+                </p>
+              </div>
+
+              <div className="bg-white p-5 rounded-2xl border border-[#FFD9E2] shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-[#FFF9EE] text-amber-600 flex items-center justify-center font-black mb-3">
+                  15p
+                </div>
+                <h4 className="font-extrabold text-sm text-[#2E1A12] mb-1">Tối Đa Công Suất Ghế</h4>
+                <p className="text-xs text-stone-500 leading-relaxed">
+                  Tự động đếm ngược 15 phút theo giờ check-in và giải phóng bàn tức thì nếu khách trễ, đảm bảo không lãng phí chỗ cho khách vãng lai.
+                </p>
+              </div>
+
+              <div className="bg-white p-5 rounded-2xl border border-[#FFD9E2] shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-black mb-3">
+                  VIP
+                </div>
+                <h4 className="font-extrabold text-sm text-[#2E1A12] mb-1">Gia Tăng Nhận Diện Thương Hiệu</h4>
+                <p className="text-xs text-stone-500 leading-relaxed">
+                  Gắn huy hiệu Đối Tác Chiến Lược Top 1, quán luôn hiển thị nổi bật ở vị trí hàng đầu khi khách hàng mở website tìm quán làm việc.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
       </main>
 
       {/* ================= MODAL: ADD / EDIT MENU ITEM ================= */}
@@ -2825,6 +3182,163 @@ export const PartnerDashboardPage: React.FC = () => {
                 className="px-4 py-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold transition-colors cursor-pointer"
               >
                 Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL: BUY BUSINESS PLAN (1.999.000 VNĐ) ================= */}
+      {isBusinessModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl relative text-xs border border-[#FFD9E2] max-h-[95vh] overflow-y-auto">
+            <button
+              onClick={() => setIsBusinessModalOpen(false)}
+              className="absolute top-4 right-4 p-2 text-stone-400 hover:text-stone-700 rounded-full hover:bg-stone-100 cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-amber-400/20 to-rose-400/20 text-[#2E1A12] font-black text-[11px] border border-amber-300">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-400" />
+                <span>Nâng Cấp Gói Đối Tác FlexiDesk</span>
+              </span>
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-black text-[#2E1A12] mb-1">
+              Kích Hoạt Gói Business
+            </h3>
+            <p className="text-stone-500 mb-4 leading-relaxed">
+              Dành cho các quán cà phê đối tác có lượng khách đặt chỗ lớn và tần suất giao dịch ổn định (≥ 12 lượt đặt chỗ/ngày).
+            </p>
+
+            {/* Bill Summary Box */}
+            <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#FFD9E2] mb-4 space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-stone-500">Quán áp dụng:</span>
+                <strong className="text-[#2E1A12]">{cafe.name}</strong>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-stone-500">Gói đăng ký:</span>
+                <span className="font-extrabold text-[#FF5C8D]">Gói Business (Đối Tác Chiến Lược)</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-stone-500">Chu kỳ sử dụng:</span>
+                <span className="font-bold text-stone-700">1 tháng (Tự động gia hạn)</span>
+              </div>
+              <div className="flex justify-between items-center pt-2 border-t border-stone-200">
+                <span className="font-bold text-stone-700">TỔNG THANH TOÁN:</span>
+                <span className="text-2xl font-black text-[#FF5C8D]">1.999.000 VNĐ</span>
+              </div>
+            </div>
+
+            {/* Payment Method Selector */}
+            <div className="mb-4">
+              <label className="font-extrabold text-stone-800 block mb-2">Chọn phương thức thanh toán:</label>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setBusinessPaymentMethod('vietqr')}
+                  className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
+                    businessPaymentMethod === 'vietqr'
+                      ? 'border-[#FF5C8D] bg-[#FCECEF] text-[#FF5C8D] font-extrabold shadow-2xs'
+                      : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                  }`}
+                >
+                  <QrCode className="w-5 h-5 mx-auto mb-1" />
+                  <span className="text-[11px] block">VietQR</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setBusinessPaymentMethod('momo')}
+                  className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
+                    businessPaymentMethod === 'momo'
+                      ? 'border-[#FF5C8D] bg-[#FCECEF] text-[#FF5C8D] font-extrabold shadow-2xs'
+                      : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                  }`}
+                >
+                  <div className="w-5 h-5 mx-auto mb-1 rounded bg-[#A50064] text-white flex items-center justify-center font-bold text-[10px]">M</div>
+                  <span className="text-[11px] block">Ví MoMo</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setBusinessPaymentMethod('bank_transfer')}
+                  className={`p-3 rounded-2xl border text-center transition-all cursor-pointer ${
+                    businessPaymentMethod === 'bank_transfer'
+                      ? 'border-[#FF5C8D] bg-[#FCECEF] text-[#FF5C8D] font-extrabold shadow-2xs'
+                      : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300'
+                  }`}
+                >
+                  <CreditCard className="w-5 h-5 mx-auto mb-1" />
+                  <span className="text-[11px] block">Chuyển khoản</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Payment Details & QR Code */}
+            <div className="p-4 bg-white rounded-2xl border-2 border-dashed border-[#FFD9E2] text-center mb-5">
+              <div className="w-36 h-36 mx-auto bg-white p-2 rounded-2xl border border-[#FFD9E2] flex items-center justify-center shadow-xs">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(
+                    `FLEXIDESK BIZ 1999000 CAFE_${cafe.id}`
+                  )}`}
+                  alt="Mã QR Thanh Toán 1.999.000 VNĐ"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <p className="text-[11px] text-stone-500 mt-2 font-medium">
+                Quét mã QR bằng ứng dụng ngân hàng hoặc MoMo để thanh toán tự động
+              </p>
+              <div className="mt-2.5 pt-2 border-t border-stone-100 text-left space-y-1 text-[11px] text-stone-600">
+                <div className="flex justify-between">
+                  <span>Ngân hàng thụ hưởng:</span>
+                  <strong className="text-[#2E1A12]">MB Bank (Ngân Hàng Quân Đội)</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>Số tài khoản:</span>
+                  <strong className="text-[#2E1A12] font-mono font-bold">0868 888 888</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>Chủ tài khoản:</span>
+                  <strong className="text-[#2E1A12]">CONG TY CP CONG NGHE FLEXIDESK</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>Nội dung chuyển khoản:</span>
+                  <strong className="text-[#FF5C8D] font-mono font-black">BIZ {cafe.id.toUpperCase()}</strong>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setIsBusinessModalOpen(false)}
+                className="px-4 py-2.5 rounded-full border border-stone-300 text-stone-600 font-bold hover:bg-stone-50 transition-colors cursor-pointer"
+              >
+                Hủy Bỏ
+              </button>
+
+              <button
+                type="button"
+                disabled={isActivatingBusiness}
+                onClick={handleSubscribeBusiness}
+                className="px-6 py-3 rounded-full bg-gradient-to-r from-[#FF5C8D] to-[#E83D70] hover:from-[#E83D70] hover:to-[#C2185B] text-white font-black text-xs sm:text-sm shadow-soft transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
+              >
+                {isActivatingBusiness ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span>Đang kích hoạt gói...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    <span>Xác Nhận Đã Chuyển Khoản & Kích Hoạt Gói Business</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
